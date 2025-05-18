@@ -1,0 +1,97 @@
+name: Build POWDER
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev
+    
+    - name: Build
+      run: |
+        chmod +x buildall.sh
+        ./buildall.sh
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: powder-linux
+        path: powder
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        choco install mingw
+    
+    - name: Build
+      run: |
+        g++ -o powder.exe *.cpp -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_ttf
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: powder-windows
+        path: powder.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        brew install sdl sdl_image sdl_ttf
+    
+    - name: Build
+      run: |
+        chmod +x buildall.OSX.sh
+        ./buildall.OSX.sh
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: powder-macos
+        path: powder
+
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+    
+    - name: Install Android NDK
+      run: |
+        sdkmanager --install "ndk;21.4.7075529"
+    
+    - name: Build Android
+      run: |
+        cd port/android/powder
+        ./gradlew assembleDebug
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: powder-android
+        path: port/android/powder/build/outputs/apk/debug/ 
