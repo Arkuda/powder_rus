@@ -18,6 +18,7 @@ echo Building Background images..
 bmp2c tridude_goodbye.bmp
 bmp2c tridude_goodbye_hires.bmp
 bmp2c icon_sdl.bmp
+bmp2c cyrillic.bmp
 
 echo Dirtying build...
 rm -f all_bitmaps.o

@@ -15,6 +15,8 @@
 
 #include <string.h>
 #include <jni.h>
+#include <android/log.h>
+#include "SDL2/SDL.h"
 
 #include "mygba.h"
 #include "hamfake.h"
@@ -41,6 +43,18 @@ JNIEXPORT void JNICALL PREFIX(postDirJNI)(JNIEnv *env, jobject thiz, jint dx, ji
 JNIEXPORT void JNICALL PREFIX(setFakeButtonJNI)(JNIEnv *env, jobject thiz, jint button, jboolean state);
 JNIEXPORT void JNICALL PREFIX(postOrientationJNI)(JNIEnv *env, jobject thiz, jboolean isportrait);
 JNIEXPORT void JNICALL PREFIX(revertDefaultsJNI)(JNIEnv *env, jobject thiz);
+
+JNIEXPORT jint JNICALL Java_com_powder_powder_SDLActivity_nativeInit(JNIEnv* env, jclass cls, jstring path) {
+    const char* path_str = env->GetStringUTFChars(path, NULL);
+    hamfake_setdatapath(path_str);
+    env->ReleaseStringUTFChars(path, path_str);
+    return 0;
+}
+
+JNIEXPORT void JNICALL Java_com_powder_powder_SDLActivity_nativeQuit(JNIEnv* env, jclass cls) {
+    hamfake_clearForceQuit();
+    hamfake_postResurrect();
+}
 };
 
 static int glbJNI_FrameWidth, glbJNI_FrameHeight;

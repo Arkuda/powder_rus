@@ -37,6 +37,10 @@ void hamfake_awaitEvent();
 u16 *hamfake_lockScreen();
 void hamfake_unlockScreen(u16 *screen);
 
+void hamfake_setdatapath(const char *path);
+void hamfake_clearForceQuit();
+void hamfake_postResurrect();
+
 #ifdef USE_VIRTUAL_SCREEN
 
 class SCREENDATA_REF;
@@ -95,7 +99,6 @@ void hamfake_sendemail(const char *to, const char *subject, const char *body);
 void hamfake_getActualScreen(SCREENDATA &screen);
 void hamfake_callThisFromVBL();
 void hamfake_setstyluspos(bool state, int x, int y);
-void hamfake_setdatapath(const char *path);
 
 void hamfake_postaction(int action, int spell);
 

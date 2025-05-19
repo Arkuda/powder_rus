@@ -39,6 +39,12 @@ struct PT2
 {
     int x, y;
     int data;
+
+    PT2() : x(-1), y(-1), data(-1) {}
+    PT2(int _x, int _y, int _data = -1) : x(_x), y(_y), data(_data) {}
+    
+    // Статический метод для создания конечного элемента списка
+    static PT2 end() { return PT2(-1, -1, -1); }
 };
 
 struct ROOM_DEF

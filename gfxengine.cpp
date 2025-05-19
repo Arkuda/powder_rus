@@ -18,7 +18,7 @@
 #include "gfxengine.h"
 
 #include "mygba.h"
-
+#include "hamfake.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -34,6 +34,7 @@
 #include "msg.h"
 #include "stylus.h"
 #include "victory.h"
+#include "cyrillic.h"
 
 // The number of 8x8 tiles to have.  The maximum for 256 colours
 // on the GBA is 512.  SDL is theoritically infinite, except the 
@@ -355,38 +356,43 @@ gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result)
 u16
 gfx_lockCharTile(u8 c, u8 *result)
 {
-    int		idx;
-    int		sourceidx;
+    int idx;
+    int sourceidx;
     
-    // Check our character tile array to see if it is already done.
     *result = c;
 
+    // Проверяем, является ли символ кириллическим
+    if (is_cyrillic(c)) {
+        idx = gfx_getcyrillictile(c);
+        if (idx != INVALID_TILEIDX) {
+            // Используем кириллический шрифт
+            ham_ReloadTileGfx(glb_bg1tiles,
+                (u16*)(&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]),
+                idx,
+                1);
+            return idx;
+        }
+    }
+
+    // Для не-кириллических символов используем стандартный шрифт
     idx = glb_charidx[c];
-    if (idx != INVALID_TILEIDX)
-    {
-	// Great, already allocated, inc and return.
-	glb_idxcount[idx]++;
-	return idx;
+    if (idx != INVALID_TILEIDX) {
+        glb_idxcount[idx]++;
+        return idx;
     }
 
-    // Must allocate it...
     idx = gfx_findFreeTile(1);
-
-    if (idx != INVALID_TILEIDX)
-    {
-	sourceidx = gfx_getchartile(c);
-	ham_ReloadTileGfx(glb_bg1tiles,
-		(u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]),
-		idx,
-		1);
-	glb_idxcount[idx]++;
-	glb_charidx[c] = idx;
-	return idx;
+    if (idx != INVALID_TILEIDX) {
+        sourceidx = gfx_getchartile(c);
+        ham_ReloadTileGfx(glb_bg1tiles,
+            (u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]),
+            idx,
+            1);
+        glb_idxcount[idx]++;
+        glb_charidx[c] = idx;
+        return idx;
     }
 
-    // Damn, failure to allocate!
-    UT_ASSERT(!"Failure to allocate char tile");
-    // Flag that we shouldn't unlock this tile.
     *result = 0xff;
     return gfx_lookupTile(TILE_NOTILE);
 }
@@ -607,9 +613,9 @@ gfx_init()
 
     // Install our interrupt handler
 #if defined(USING_SDL) || defined(USING_DS) || defined(NO_HAM)
-    ham_StartIntHandler(INT_TYPE_VBL, &vblFunc);
+    ham_StartIntHandler(INT_TYPE_VBL, vblFunc);
 #else
-    ham_StartIntHandler(INT_TYPE_VBL, (void *)&vblFunc);
+    ham_StartIntHandler(INT_TYPE_VBL, vblFunc);
 #endif
 
     // These maps store the TILE_NAMES currently at each map position.
@@ -4388,7 +4394,8 @@ void hamfake_buttonreq(int mode, int type) { }
 
 // Функция для проверки, является ли символ кириллическим
 bool is_cyrillic(char c) {
-    return (c >= 0xC0 && c <= 0xFF) || (c >= 0x80 && c <= 0xBF);
+    unsigned char uc = (unsigned char)c;
+    return (uc >= 0xD0 && uc <= 0xDF) || (uc >= 0xE0 && uc <= 0xEF);
 }
 
 // Функция для получения тайла кириллического символа
@@ -4396,50 +4403,8 @@ u16 gfx_getcyrillictile(char c) {
     if (!is_cyrillic(c)) return INVALID_TILEIDX;
     
     // Преобразуем символ в индекс в кириллическом шрифте
-    int idx = c - 0x80;  // Начинаем с 0x80 для кириллицы
+    unsigned char uc = (unsigned char)c;
+    int idx = uc - 0xD0;  // Начинаем с 0xD0 для кириллицы
     return idx;
-}
-
-// Обновляем функцию gfx_lockCharTile для поддержки кириллицы
-u16 gfx_lockCharTile(u8 c, u8 *result) {
-    int idx;
-    int sourceidx;
-    
-    *result = c;
-
-    // Проверяем, является ли символ кириллическим
-    if (is_cyrillic(c)) {
-        idx = gfx_getcyrillictile(c);
-        if (idx != INVALID_TILEIDX) {
-            // Используем кириллический шрифт
-            ham_ReloadTileGfx(glb_bg1tiles,
-                (u16*)(&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]),
-                idx,
-                1);
-            return idx;
-        }
-    }
-
-    // Для не-кириллических символов используем стандартный шрифт
-    idx = glb_charidx[c];
-    if (idx != INVALID_TILEIDX) {
-        glb_idxcount[idx]++;
-        return idx;
-    }
-
-    idx = gfx_findFreeTile(1);
-    if (idx != INVALID_TILEIDX) {
-        sourceidx = gfx_getchartile(c);
-        ham_ReloadTileGfx(glb_bg1tiles,
-            (u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]),
-            idx,
-            1);
-        glb_idxcount[idx]++;
-        glb_charidx[c] = idx;
-        return idx;
-    }
-
-    *result = 0xff;
-    return gfx_lookupTile(TILE_NOTILE);
 }
 

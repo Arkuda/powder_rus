@@ -271,9 +271,9 @@ bmp_tilify(const u16 *flat, int w, int h, s16 *cd_to_pal,
 			for (x = 0; x < tilewidth; x++)
 			{
 			    result[off++] = (u8) 
-				cd_to_pal[flat[ 
+				cd_to_pal[
     (ty * tileheight * numtiley + sy * tileheight + y) * w 
-    + (tx * numtilex * tilewidth + sx * tilewidth + x) ]];
+    + (tx * numtilex * tilewidth + sx * tilewidth + x)];
 			}
 		    }
 		}
@@ -629,6 +629,23 @@ bmp_loadExtraTileset()
     delete [] m16;
     delete [] mf16;
     delete [] sprite16;
+    delete [] cd_to_pal;
+
+    return true;
+}
+
+bool
+bmp_loadTileset(const char *name, int x, int y, int tilewidth, int tileheight)
+{
+    int w, h;
+    unsigned short *data = bmp_load(name, w, h, false);
+    if (!data)
+        return false;
+
+    // Convert the bitmap data into tiles
+    s16 *cd_to_pal = new s16[w * h];
+    bmp_tilify(data, w, h, cd_to_pal, tilewidth, tileheight, w/tilewidth, h/tileheight);
+    delete [] data;
     delete [] cd_to_pal;
 
     return true;

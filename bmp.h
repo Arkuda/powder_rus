@@ -28,5 +28,10 @@ bmp_loadExtraTileset();
 unsigned short *
 bmp_load(const char *name, int &w, int &h, bool quiet);
 
+// Loads a tileset from a bitmap file
+// Returns true if successful
+bool
+bmp_loadTileset(const char *name, int x, int y, int tilewidth, int tileheight);
+
 #endif
 

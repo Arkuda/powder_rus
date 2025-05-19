@@ -27,9 +27,8 @@
 #define USE_EXTENDED_HEIGHT
 #endif
 
-#ifdef ANDROID
+#define ANDROID
 #define USE_VIRTUAL_SCREEN
-#endif
 
 // Not all SDL systems have the keyboard.
 #if !defined(iPOWDER) && !defined(ANDROID)

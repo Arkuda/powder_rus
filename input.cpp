@@ -13,11 +13,10 @@
  *	Routines to accept input...
  */
 
+#include "mygba.h"
 #include "input.h"
-
 #include "assert.h"
 #include "gfxengine.h"
-#include "input.h"
 #include "control.h"
 #include "rand.h"
 #include "stylus.h"

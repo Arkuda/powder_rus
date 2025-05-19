@@ -15,11 +15,7 @@
  *	a debugger on the hardware.
  */
 
-#include "assert.h"
-//
-// Assert implementation
-//
-
+#include <assert.h>
 #include "assert.h"
 #include <stdio.h>
 #include "control.h"

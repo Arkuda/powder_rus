@@ -51,6 +51,8 @@
 #include <time.h>
 #endif
 
+#include "port/android/powder/jni/hamfake_android.h"
+
 // Defines whether we are in map testing mode.
 //#define MAPTEST
 
@@ -6295,6 +6297,12 @@ buildMapStats()
 	exit(0);
 }
 #endif
+
+// Переименовываем main в fake_main до определения макроса
+int fake_main(int argc, char *argv[]);
+
+// Теперь можно определить макрос
+#define main fake_main
 
 int 
 main(void)
