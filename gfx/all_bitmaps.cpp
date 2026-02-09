@@ -464,6 +464,15 @@ const unsigned short *bmp_slug_and_blood = bmp_slug_and_blood_data;
 #endif
 
 //
+// Cyrillic tiles:
+//
+
+#define bmp_cyrillic cyrillic_source_tiles
+    #include "cyrillic.bmp.c"
+#undef bmp_cyrillic
+const unsigned char *cyrillic_Tiles = (const unsigned char *)cyrillic_source_tiles;
+
+//
 // Tileset linkage:
 //	This is intentionaly not const so we can edit it with any
 //	tilesets we find on disk.
