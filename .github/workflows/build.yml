@@ -109,6 +109,16 @@ jobs:
         yes | sdkmanager --licenses
         sdkmanager --install "ndk;21.4.7075529"
 
+    - name: Build bitmap conversion tools
+      run: |
+        g++ -O2 -std=c++11 -o support/tile2c/tile2c support/tile2c/tile2c_main.cpp support/tile2c/bmp.cpp
+        g++ -O2 -std=c++11 -o support/bmp2c/bmp2c support/bmp2c/bmp2c.cpp support/bmp2c/stdafx.cpp
+
+    - name: Generate gfx C assets
+      run: |
+        cd gfx
+        bash ./rebuild.sh
+
     - name: Build Android
       run: |
         cd port/android/powder
