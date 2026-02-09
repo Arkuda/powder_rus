@@ -78,29 +78,49 @@ jobs:
 
   build-android:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
-    
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: '8.2.1'
+        cache-read-only: false
+
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
-    
+
+    - name: Cache Android NDK
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.ANDROID_SDK_ROOT }}/ndk/21.4.7075529
+        key: ${{ runner.os }}-android-ndk-21.4.7075529
+
     - name: Install Android NDK
       run: |
+        yes | sdkmanager --licenses
         sdkmanager --install "ndk;21.4.7075529"
-    
+
     - name: Build Android
       run: |
         cd port/android/powder
-        ./gradlew assembleDebug
-    
+        ./gradlew --no-daemon assembleDebug
+
+    - name: Diagnose APK outputs
+      run: |
+        ls -lah port/android/powder/app/build/outputs/
+        ls -lah port/android/powder/app/build/outputs/apk/
+        ls -lah port/android/powder/app/build/outputs/apk/debug/
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: powder-android
-        path: port/android/powder/build/outputs/apk/debug/ 
+        path: port/android/powder/app/build/outputs/apk/debug/*.apk

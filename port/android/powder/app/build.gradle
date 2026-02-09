@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.zincland.powder'
+    compileSdk 34
+    ndkVersion '21.4.7075529'
+
+    defaultConfig {
+        applicationId 'com.zincland.powder'
+        minSdk 21
+        targetSdk 31
+        versionCode 118
+        versionName '118'
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile '../AndroidManifest.xml'
+            java.srcDirs = ['../src']
+            res.srcDirs = ['../res']
+            assets.srcDirs = ['../assets']
+            jniLibs.srcDirs = ['../libs']
+        }
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path '../jni/Android.mk'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../proguard.cfg'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
