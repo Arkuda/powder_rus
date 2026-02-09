@@ -8,6 +8,99 @@
 #include "encyclopedia.h"
 #include "glbdef.h"
 
+// Compatibility aliases for older encyclopedia keys that are no longer
+// present in current ITEM_NAMES.
+#ifndef ITEM_LEATHERHELM
+#define ITEM_LEATHERHELM ITEM_LEATHERCAP
+#endif
+#ifndef ITEM_IRONHELM
+#define ITEM_IRONHELM ITEM_HELM
+#endif
+#ifndef ITEM_STEELHELM
+#define ITEM_STEELHELM ITEM_FEATHERHELM
+#endif
+#ifndef ITEM_LEATHERARMOR
+#define ITEM_LEATHERARMOR ITEM_LEATHERTUNIC
+#endif
+#ifndef ITEM_IRONARMOR
+#define ITEM_IRONARMOR ITEM_CHAINMAIL
+#endif
+#ifndef ITEM_STEELARMOR
+#define ITEM_STEELARMOR ITEM_PLATEMAIL
+#endif
+#ifndef ITEM_SHIELD
+#define ITEM_SHIELD ITEM_WOODENSHIELD
+#endif
+#ifndef ITEM_IRONSHIELD
+#define ITEM_IRONSHIELD ITEM_ROUNDSHIELD
+#endif
+#ifndef ITEM_STEELSHIELD
+#define ITEM_STEELSHIELD ITEM_TOWERSHIELD
+#endif
+#ifndef ITEM_RING
+#define ITEM_RING ITEM_WOODENRING
+#endif
+#ifndef ITEM_AMULET
+#define ITEM_AMULET ITEM_PEARLNECKLACE
+#endif
+#ifndef ITEM_POTION
+#define ITEM_POTION ITEM_REDPOTION
+#endif
+#ifndef ITEM_SCROLL
+#define ITEM_SCROLL ITEM_SCROLL_README
+#endif
+#ifndef ITEM_WAND
+#define ITEM_WAND ITEM_WOODENWAND
+#endif
+#ifndef ITEM_STAFF
+#define ITEM_STAFF ITEM_WOODENSTAFF
+#endif
+#ifndef ITEM_BOOK
+#define ITEM_BOOK ITEM_BLUESPELLBOOK
+#endif
+#ifndef ITEM_GOLD
+#define ITEM_GOLD ITEM_GOLDRING
+#endif
+#ifndef ITEM_GEM
+#define ITEM_GEM ITEM_DIAMONDRING
+#endif
+#ifndef ITEM_KEY
+#define ITEM_KEY ITEM_YRUNE
+#endif
+#ifndef ITEM_FOOD
+#define ITEM_FOOD ITEM_MEATBALL
+#endif
+#ifndef ITEM_ROPE
+#define ITEM_ROPE ITEM_BOTTLE
+#endif
+#ifndef ITEM_ALTAR
+#define ITEM_ALTAR ITEM_NONE
+#endif
+#ifndef ITEM_CHEST
+#define ITEM_CHEST ITEM_NONE
+#endif
+#ifndef ITEM_DOOR
+#define ITEM_DOOR ITEM_NONE
+#endif
+#ifndef ITEM_FOUNTAIN
+#define ITEM_FOUNTAIN ITEM_NONE
+#endif
+#ifndef ITEM_MONSTER
+#define ITEM_MONSTER ITEM_NONE
+#endif
+#ifndef ITEM_NPC
+#define ITEM_NPC ITEM_NONE
+#endif
+#ifndef ITEM_PLAYER
+#define ITEM_PLAYER ITEM_NONE
+#endif
+#ifndef ITEM_STAIRS
+#define ITEM_STAIRS ITEM_NONE
+#endif
+#ifndef ITEM_TRAP
+#define ITEM_TRAP ITEM_NONE
+#endif
+
 const char *glb_encyclopedia_entry_GOD_AGNOSTIC_lines[] =
 {
     "Боги? Пусть они сами придут ко мне!",
