@@ -70,8 +70,6 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/victory.cpp \
                    $(POWDERROOT)/encyclopedia.cpp \
                    $(POWDERROOT)/glbdef.cpp \
-                   $(POWDERROOT)/credits.cpp \
-                   $(POWDERROOT)/license.cpp \
                    $(POWDERROOT)/gfx/all_bitmaps.cpp \
                    $(POWDERROOT)/rooms/allrooms.cpp \
                    $(POWDERROOT)/port/sdl/src/SDL.c \
@@ -109,7 +107,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/haptic/android/SDL_syshaptic.c \
                    $(POWDERROOT)/port/sdl/src/joystick/SDL_joystick.c \
                    $(POWDERROOT)/port/sdl/src/joystick/android/SDL_sysjoystick.c \
-                   $(POWDERROOT)/port/sdl/src/loadso/android/SDL_sysloadso.c \
+                   $(POWDERROOT)/port/sdl/src/loadso/dlopen/SDL_sysloadso.c \
                    $(POWDERROOT)/port/sdl/src/power/android/SDL_syspower.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_d3dmath.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_render.c \
