@@ -93,6 +93,7 @@ jobs:
       with:
         gradle-version: '8.2.1'
         cache-read-only: false
+        validate-wrappers: false
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
