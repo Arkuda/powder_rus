@@ -63,6 +63,7 @@ const ROOM_DEF glb_zoo5_roomdef =
 	glb_zoo5_itemtypelist,
 	glb_zoo5_moblevellist,
 	glb_zoo5_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

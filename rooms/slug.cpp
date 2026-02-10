@@ -186,6 +186,7 @@ const ROOM_DEF glb_slug_roomdef =
 	glb_slug_itemtypelist,
 	glb_slug_moblevellist,
 	glb_slug_intrinsiclist,
+	0,
 	6, -1,
 	100,
 	0, 0,

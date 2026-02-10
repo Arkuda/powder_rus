@@ -111,6 +111,7 @@ const ROOM_DEF glb_zoo4_roomdef =
 	glb_zoo4_itemtypelist,
 	glb_zoo4_moblevellist,
 	glb_zoo4_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

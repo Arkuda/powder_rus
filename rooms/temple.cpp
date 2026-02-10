@@ -210,6 +210,7 @@ const ROOM_DEF glb_temple_roomdef =
 	glb_temple_itemtypelist,
 	glb_temple_moblevellist,
 	glb_temple_intrinsiclist,
+	0,
 	3, -1,
 	100,
 	0, 0,

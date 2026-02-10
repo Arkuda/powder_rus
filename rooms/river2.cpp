@@ -87,6 +87,7 @@ const ROOM_DEF glb_river2_roomdef =
 	glb_river2_itemtypelist,
 	glb_river2_moblevellist,
 	glb_river2_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

@@ -378,6 +378,7 @@ const ROOM_DEF glb_belweir_roomdef =
 	glb_belweir_itemtypelist,
 	glb_belweir_moblevellist,
 	glb_belweir_intrinsiclist,
+	0,
 	21, 21,
 	100,
 	1, 0,

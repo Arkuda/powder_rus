@@ -128,6 +128,7 @@ const ROOM_DEF glb_hall_roomdef =
 	glb_hall_itemtypelist,
 	glb_hall_moblevellist,
 	glb_hall_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

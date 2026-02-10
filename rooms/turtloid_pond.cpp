@@ -112,6 +112,7 @@ const ROOM_DEF glb_turtloid_pond_roomdef =
 	glb_turtloid_pond_itemtypelist,
 	glb_turtloid_pond_moblevellist,
 	glb_turtloid_pond_intrinsiclist,
+	0,
 	20, -1,
 	100,
 	0, 0,

@@ -111,6 +111,7 @@ const ROOM_DEF glb_spiral_roomdef =
 	glb_spiral_itemtypelist,
 	glb_spiral_moblevellist,
 	glb_spiral_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

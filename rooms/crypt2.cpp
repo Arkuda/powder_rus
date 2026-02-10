@@ -139,6 +139,7 @@ const ROOM_DEF glb_crypt2_roomdef =
 	glb_crypt2_itemtypelist,
 	glb_crypt2_moblevellist,
 	glb_crypt2_intrinsiclist,
+	0,
 	2, -1,
 	100,
 	0, 0,

@@ -133,6 +133,7 @@ const ROOM_DEF glb_kobold_hideout_roomdef =
 	glb_kobold_hideout_itemtypelist,
 	glb_kobold_hideout_moblevellist,
 	glb_kobold_hideout_intrinsiclist,
+	0,
 	5, -1,
 	100,
 	0, 0,

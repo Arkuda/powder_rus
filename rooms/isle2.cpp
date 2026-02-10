@@ -148,6 +148,7 @@ const ROOM_DEF glb_isle2_roomdef =
 	glb_isle2_itemtypelist,
 	glb_isle2_moblevellist,
 	glb_isle2_intrinsiclist,
+	0,
 	4, -1,
 	100,
 	0, 0,

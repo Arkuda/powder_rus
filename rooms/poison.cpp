@@ -148,6 +148,7 @@ const ROOM_DEF glb_poison_roomdef =
 	glb_poison_itemtypelist,
 	glb_poison_moblevellist,
 	glb_poison_intrinsiclist,
+	0,
 	10, -1,
 	100,
 	0, 0,

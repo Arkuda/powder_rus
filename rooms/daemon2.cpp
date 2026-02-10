@@ -186,6 +186,7 @@ const ROOM_DEF glb_daemon2_roomdef =
 	glb_daemon2_itemtypelist,
 	glb_daemon2_moblevellist,
 	glb_daemon2_intrinsiclist,
+	0,
 	6, -1,
 	100,
 	0, 0,

@@ -101,6 +101,7 @@ const ROOM_DEF glb_forest_roomdef =
 	glb_forest_itemtypelist,
 	glb_forest_moblevellist,
 	glb_forest_intrinsiclist,
+	0,
 	8, -1,
 	100,
 	0, 0,
