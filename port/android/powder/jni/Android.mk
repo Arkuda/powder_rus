@@ -31,11 +31,6 @@ LOCAL_CPPFLAGS := -DLINUX -DANDROID \
                  -I$(LOCAL_PATH) \
                  -I$(POWDERROOT)/port/android/powder/jni
 
-# Some CI/main variants still expect these generated translation units.
-# Ensure they exist to prevent ndk-build configure failures on missing sources.
-$(shell test -f $(POWDERROOT)/credits.cpp || echo "// Auto-generated fallback translation unit for builds that expect credits.o." > $(POWDERROOT)/credits.cpp)
-$(shell test -f $(POWDERROOT)/license.cpp || echo "// Auto-generated fallback translation unit for builds that expect license.o." > $(POWDERROOT)/license.cpp)
-
 # NOTE: cyrillic helpers are implemented in gfxengine.cpp.
 # Keep jni/cyrillic.cpp out of LOCAL_SRC_FILES to avoid duplicate symbols.
 LOCAL_SRC_FILES := powder-jni.cpp \
@@ -76,8 +71,6 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/victory.cpp \
                    $(POWDERROOT)/encyclopedia.cpp \
                    $(POWDERROOT)/glbdef.cpp \
-                   $(POWDERROOT)/credits.cpp \
-                   $(POWDERROOT)/license.cpp \
                    $(POWDERROOT)/localization.cpp \
                    $(POWDERROOT)/gfx/all_bitmaps.cpp \
                    $(POWDERROOT)/rooms/allrooms.cpp \
@@ -172,6 +165,11 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidvideo.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidvulkan.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidwindow.c
+
+
+# Optional generated units: include only when present to avoid missing-target failures.
+LOCAL_SRC_FILES += $(wildcard $(POWDERROOT)/credits.cpp)
+LOCAL_SRC_FILES += $(wildcard $(POWDERROOT)/license.cpp)
 
 LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID
 LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog
