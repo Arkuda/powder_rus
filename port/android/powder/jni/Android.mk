@@ -199,7 +199,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidvulkan.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidwindow.c
 
-LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID
+LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID -DHAVE_GETAUXVAL
 LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)
