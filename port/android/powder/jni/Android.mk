@@ -34,7 +34,6 @@ LOCAL_CPPFLAGS := -DLINUX -DANDROID \
 LOCAL_SRC_FILES := powder-jni.cpp \
                    android_main.cpp \
                    hamfake_android.cpp \
-                   cyrillic.cpp \
                    $(POWDERROOT)/main.cpp \
                    $(POWDERROOT)/thread.cpp \
                    $(POWDERROOT)/thread_linux.cpp \
