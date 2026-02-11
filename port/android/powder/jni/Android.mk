@@ -72,6 +72,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/glbdef.cpp \
                    $(POWDERROOT)/credits.cpp \
                    $(POWDERROOT)/license.cpp \
+                   $(POWDERROOT)/localization.cpp \
                    $(POWDERROOT)/gfx/all_bitmaps.cpp \
                    $(POWDERROOT)/rooms/allrooms.cpp \
                    $(POWDERROOT)/port/sdl/src/SDL.c \

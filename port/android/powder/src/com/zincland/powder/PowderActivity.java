@@ -187,8 +187,8 @@ public class PowderActivity extends Activity {
     	        {
         	        AlertDialog.Builder alert = new AlertDialog.Builder(this);
         	        alert.setCancelable(true);
-        	        alert.setTitle("View who's history?");
-        	        alert.setPositiveButton("Cancel", null);
+        	        alert.setTitle(R.string.dialog_view_history_title);
+        	        alert.setPositiveButton(R.string.dialog_cancel, null);
         	        final Context parentcontext = this;
 
         	        File[] filelist = pdir.listFiles();
@@ -232,8 +232,8 @@ public class PowderActivity extends Activity {
                	        		dialog.dismiss();
                	        	 	final AlertDialog.Builder alert = new AlertDialog.Builder(parentcontext);
         	    	    		alert.setCancelable(false);
-        	    	    		alert.setMessage("No text viewer installed on this device.");
-        	    	    		alert.setPositiveButton("Ok", null);
+	        	    		alert.setMessage(R.string.dialog_no_text_viewer);
+	        	    		alert.setPositiveButton(R.string.dialog_ok, null);
         	    	    		alert.show();
             	        	}		
         	        	}
@@ -247,8 +247,8 @@ public class PowderActivity extends Activity {
         	        {
 	    	    		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
 	    	    		alert2.setCancelable(false);
-	    	    		alert2.setMessage("No character logs have been saved yet.");
-	    	    		alert2.setPositiveButton("Ok", null);
+	    			alert2.setMessage(R.string.dialog_no_character_logs);
+	    			alert2.setPositiveButton(R.string.dialog_ok, null);
 	    	    		alert2.show();
     	        	}
     	        }
@@ -256,8 +256,8 @@ public class PowderActivity extends Activity {
     	        {
     	    		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	    		alert.setCancelable(false);
-    	    		alert.setMessage("No external storage configured for this device!");
-    	    		alert.setPositiveButton("Ok", null);
+	    			alert.setMessage(R.string.dialog_no_external_storage);
+	    			alert.setPositiveButton(R.string.dialog_ok, null);
     	    		alert.show();
 	        	}
     			return true;
@@ -552,8 +552,8 @@ public class PowderActivity extends Activity {
     		
     		alert.setView(input);
     		alert.setCancelable(false);
-    		alert.setMessage("Name?");
-    		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+    		alert.setMessage(getString(R.string.dialog_name_prompt));
+    		alert.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener()
     		{
     			public void onClick(DialogInterface dialog, int whichButton)
     			{

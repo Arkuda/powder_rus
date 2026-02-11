@@ -35,6 +35,7 @@ OFILES = linuxmain.o \
 	 ../../glbdef.o \
 	 ../../credits.o \
 	 ../../license.o \
+	 ../../localization.o \
 	 ../../gfx/all_bitmaps.o \
 	 ../../rooms/allrooms.o
 

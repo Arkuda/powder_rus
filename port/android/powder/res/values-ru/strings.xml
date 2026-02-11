@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Привет, PowderActivity!</string>
+    <string name="app_name">Powder</string>
+    <string name="rotateportrait">Повернуть экран</string>
+    <string name="showcontrols">Показывать кнопки</string>
+    <string name="showfps">Показывать FPS</string>
+    <string name="revertdefaults">Сбросить настройки</string>
+    <string name="openfiles">Логи прохождений</string>
+    <string name="stretchscreen">Растянуть экран</string>
+
+    <string name="dialog_view_history_title">Историю какого персонажа открыть?</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_ok">Ок</string>
+    <string name="dialog_no_text_viewer">На устройстве нет приложения для просмотра текстовых файлов.</string>
+    <string name="dialog_no_character_logs">Логи персонажей пока не сохранены.</string>
+    <string name="dialog_no_external_storage">На устройстве не настроено внешнее хранилище!</string>
+    <string name="dialog_name_prompt">Имя?</string>
+
+</resources>

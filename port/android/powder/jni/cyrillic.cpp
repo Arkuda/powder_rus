@@ -1,17 +1,21 @@
 #include "cyrillic.h"
 
-// Функция для проверки, является ли символ кириллическим
+// Single-byte Cyrillic (CP1251) range used by the bitmap font.
 bool is_cyrillic(char c) {
     unsigned char uc = (unsigned char)c;
-    return (uc >= 0xD0 && uc <= 0xDF) || (uc >= 0xE0 && uc <= 0xEF);
+    return (uc >= 0xC0 && uc <= 0xFF);
 }
 
-// Функция для получения тайла кириллического символа
 u16 gfx_getcyrillictile(char c) {
-    if (!is_cyrillic(c)) return INVALID_TILEIDX;
-    
-    // Преобразуем символ в индекс в кириллическом шрифте
     unsigned char uc = (unsigned char)c;
-    int idx = uc - 0xD0;  // Начинаем с 0xD0 для кириллицы
-    return idx;
-} 
+    int idx;
+
+    if (!is_cyrillic(c))
+        return INVALID_TILEIDX;
+
+    idx = (int) uc - 0xC0;
+    if (idx < 0 || idx >= 70)
+        return INVALID_TILEIDX;
+
+    return (u16) idx;
+}
