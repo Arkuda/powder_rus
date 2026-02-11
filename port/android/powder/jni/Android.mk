@@ -106,6 +106,29 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/haptic/android/SDL_syshaptic.c \
                    $(POWDERROOT)/port/sdl/src/joystick/SDL_joystick.c \
                    $(POWDERROOT)/port/sdl/src/joystick/android/SDL_sysjoystick.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/controller_type.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/SDL_gamecontroller.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/SDL_steam_virtual_gamepad.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/virtual/SDL_virtualjoystick.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_combined.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_gamecube.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_luna.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps3.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps4.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps5.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_rumble.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_shield.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_stadia.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_steam.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_steamdeck.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_switch.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_wii.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xbox360.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xbox360w.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xboxone.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapijoystick.c \
+                   $(POWDERROOT)/port/sdl/src/hidapi/SDL_hidapi.c \
+                   $(POWDERROOT)/port/sdl/src/hidapi/android/hid.cpp \
                    $(POWDERROOT)/port/sdl/src/loadso/dlopen/SDL_sysloadso.c \
                    $(POWDERROOT)/port/sdl/src/power/android/SDL_syspower.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_d3dmath.c \
@@ -115,6 +138,13 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_render_gles2.c \
                    $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_shaders_gles2.c \
                    $(POWDERROOT)/port/sdl/src/render/software/SDL_render_sw.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_drawpoint.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_drawline.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendpoint.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendline.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendfillrect.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_triangle.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_rotate.c \
                    $(POWDERROOT)/port/sdl/src/sensor/SDL_sensor.c \
                    $(POWDERROOT)/port/sdl/src/sensor/android/SDL_androidsensor.c \
                    $(POWDERROOT)/port/sdl/src/stdlib/SDL_crc16.c \
