@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if command -v gradle >/dev/null 2>&1; then
+  exec gradle "$@"
+fi
+
+echo "gradle executable not found. Please install Gradle or use GitHub Actions setup-gradle." >&2
+exit 1

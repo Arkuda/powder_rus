@@ -159,6 +159,7 @@ const ROOM_DEF glb_circle_roomdef =
 	glb_circle_itemtypelist,
 	glb_circle_moblevellist,
 	glb_circle_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

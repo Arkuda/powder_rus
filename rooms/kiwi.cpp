@@ -89,6 +89,7 @@ const ROOM_DEF glb_kiwi_roomdef =
 	glb_kiwi_itemtypelist,
 	glb_kiwi_moblevellist,
 	glb_kiwi_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

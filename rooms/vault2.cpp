@@ -129,6 +129,7 @@ const ROOM_DEF glb_vault2_roomdef =
 	glb_vault2_itemtypelist,
 	glb_vault2_moblevellist,
 	glb_vault2_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

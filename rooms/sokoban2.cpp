@@ -78,6 +78,7 @@ const ROOM_DEF glb_sokoban2_roomdef =
 	glb_sokoban2_itemtypelist,
 	glb_sokoban2_moblevellist,
 	glb_sokoban2_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

@@ -31,6 +31,7 @@ typedef signed int s32;
 #ifndef ANDROID
 #define ANDROID
 #endif
+#define USING_SDL
 #define USE_VIRTUAL_SCREEN
 #define HAS_DISKIO
 #define HAS_STYLUS
@@ -71,5 +72,7 @@ char *strdup(const char *s);
 #define WIN_OBJ 0x10
 
 #include <memory.h>
+
+#include "hamfake.h"
 
 #endif // MYGBA_H 

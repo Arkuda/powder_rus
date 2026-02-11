@@ -84,6 +84,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/SDL_utils.c \
                    $(POWDERROOT)/port/sdl/src/SDL_list.c \
                    $(POWDERROOT)/port/sdl/src/SDL_guid.c \
+                   $(POWDERROOT)/port/sdl/src/SDL_dataqueue.c \
                    $(POWDERROOT)/port/sdl/src/atomic/SDL_atomic.c \
                    $(POWDERROOT)/port/sdl/src/atomic/SDL_spinlock.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_audio.c \
@@ -92,7 +93,10 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_audiotypecvt.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_mixer.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_wave.c \
+                   $(POWDERROOT)/port/sdl/src/audio/dummy/SDL_dummyaudio.c \
                    $(POWDERROOT)/port/sdl/src/audio/android/SDL_androidaudio.c \
+                   $(POWDERROOT)/port/sdl/src/audio/aaudio/SDL_aaudio.c \
+                   $(POWDERROOT)/port/sdl/src/audio/openslES/SDL_openslES.c \
                    $(POWDERROOT)/port/sdl/src/core/android/SDL_android.c \
                    $(POWDERROOT)/port/sdl/src/cpuinfo/SDL_cpuinfo.c \
                    $(POWDERROOT)/port/sdl/src/events/SDL_clipboardevents.c \
@@ -111,13 +115,45 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/haptic/android/SDL_syshaptic.c \
                    $(POWDERROOT)/port/sdl/src/joystick/SDL_joystick.c \
                    $(POWDERROOT)/port/sdl/src/joystick/android/SDL_sysjoystick.c \
-                   $(POWDERROOT)/port/sdl/src/loadso/android/SDL_sysloadso.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/controller_type.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/SDL_gamecontroller.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/SDL_steam_virtual_gamepad.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/virtual/SDL_virtualjoystick.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_combined.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_gamecube.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_luna.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps3.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps4.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_ps5.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_rumble.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_shield.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_stadia.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_steam.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_steamdeck.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_switch.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_wii.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xbox360.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xbox360w.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapi_xboxone.c \
+                   $(POWDERROOT)/port/sdl/src/joystick/hidapi/SDL_hidapijoystick.c \
+                   $(POWDERROOT)/port/sdl/src/hidapi/SDL_hidapi.c \
+                   $(POWDERROOT)/port/sdl/src/hidapi/android/hid.cpp \
+                   $(POWDERROOT)/port/sdl/src/loadso/dlopen/SDL_sysloadso.c \
                    $(POWDERROOT)/port/sdl/src/power/android/SDL_syspower.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_d3dmath.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_render.c \
                    $(POWDERROOT)/port/sdl/src/render/SDL_yuv_sw.c \
                    $(POWDERROOT)/port/sdl/src/render/opengles/SDL_render_gles.c \
                    $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_render_gles2.c \
+                   $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_shaders_gles2.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_render_sw.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_drawpoint.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_drawline.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendpoint.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendline.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_blendfillrect.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_triangle.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_rotate.c \
                    $(POWDERROOT)/port/sdl/src/sensor/SDL_sensor.c \
                    $(POWDERROOT)/port/sdl/src/sensor/android/SDL_androidsensor.c \
                    $(POWDERROOT)/port/sdl/src/stdlib/SDL_crc16.c \
@@ -154,9 +190,12 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/SDL_shape.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_stretch.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_surface.c \
+                   $(POWDERROOT)/port/sdl/src/video/SDL_RLEaccel.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_video.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_vulkan_utils.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_yuv.c \
+                   $(POWDERROOT)/port/sdl/src/video/yuv2rgb/yuv_rgb_std.c \
+                   $(POWDERROOT)/port/sdl/src/video/yuv2rgb/yuv_rgb_sse.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidclipboard.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidevents.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidgl.c \
@@ -168,7 +207,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidvulkan.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidwindow.c
 
-LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID
-LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog
+LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID -DHAVE_GETAUXVAL
+LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)

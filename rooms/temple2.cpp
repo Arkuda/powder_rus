@@ -213,6 +213,7 @@ const ROOM_DEF glb_temple2_roomdef =
 	glb_temple2_itemtypelist,
 	glb_temple2_moblevellist,
 	glb_temple2_intrinsiclist,
+	0,
 	3, -1,
 	100,
 	0, 0,

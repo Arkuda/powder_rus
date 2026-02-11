@@ -75,6 +75,7 @@ const ROOM_DEF glb_lava2_roomdef =
 	glb_lava2_itemtypelist,
 	glb_lava2_moblevellist,
 	glb_lava2_intrinsiclist,
+	0,
 	5, -1,
 	100,
 	0, 0,

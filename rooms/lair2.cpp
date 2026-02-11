@@ -90,6 +90,7 @@ const ROOM_DEF glb_lair2_roomdef =
 	glb_lair2_itemtypelist,
 	glb_lair2_moblevellist,
 	glb_lair2_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

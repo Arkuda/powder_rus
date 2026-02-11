@@ -152,6 +152,7 @@ const ROOM_DEF glb_kobold_barrack_roomdef =
 	glb_kobold_barrack_itemtypelist,
 	glb_kobold_barrack_moblevellist,
 	glb_kobold_barrack_intrinsiclist,
+	0,
 	5, -1,
 	100,
 	0, 0,

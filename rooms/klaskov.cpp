@@ -1204,6 +1204,7 @@ const ROOM_DEF glb_klaskov_roomdef =
 	glb_klaskov_itemtypelist,
 	glb_klaskov_moblevellist,
 	glb_klaskov_intrinsiclist,
+	0,
 	-1, -1,
 	0,
 	0, 0,

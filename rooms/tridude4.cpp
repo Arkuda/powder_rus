@@ -148,6 +148,7 @@ const ROOM_DEF glb_tridude4_roomdef =
 	glb_tridude4_itemtypelist,
 	glb_tridude4_moblevellist,
 	glb_tridude4_intrinsiclist,
+	0,
 	10, -1,
 	100,
 	0, 0,

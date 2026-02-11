@@ -84,6 +84,7 @@ const ROOM_DEF glb_secret_roomdef =
 	glb_secret_itemtypelist,
 	glb_secret_moblevellist,
 	glb_secret_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

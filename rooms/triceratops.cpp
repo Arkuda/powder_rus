@@ -78,6 +78,7 @@ const ROOM_DEF glb_triceratops_roomdef =
 	glb_triceratops_itemtypelist,
 	glb_triceratops_moblevellist,
 	glb_triceratops_intrinsiclist,
+	0,
 	9, -1,
 	100,
 	0, 0,
