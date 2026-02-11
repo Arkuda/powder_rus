@@ -74,6 +74,7 @@ const ROOM_DEF glb_why_roomdef =
 	glb_why_itemtypelist,
 	glb_why_moblevellist,
 	glb_why_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

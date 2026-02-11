@@ -186,6 +186,7 @@ const ROOM_DEF glb_orc_lair2_roomdef =
 	glb_orc_lair2_itemtypelist,
 	glb_orc_lair2_moblevellist,
 	glb_orc_lair2_intrinsiclist,
+	0,
 	10, -1,
 	100,
 	0, 0,

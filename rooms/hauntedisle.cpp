@@ -108,6 +108,7 @@ const ROOM_DEF glb_hauntedisle_roomdef =
 	glb_hauntedisle_itemtypelist,
 	glb_hauntedisle_moblevellist,
 	glb_hauntedisle_intrinsiclist,
+	0,
 	3, -1,
 	100,
 	0, 0,

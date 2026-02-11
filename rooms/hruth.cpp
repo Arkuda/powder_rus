@@ -1131,6 +1131,7 @@ const ROOM_DEF glb_hruth_roomdef =
 	glb_hruth_itemtypelist,
 	glb_hruth_moblevellist,
 	glb_hruth_intrinsiclist,
+	0,
 	-1, -1,
 	0,
 	0, 0,

@@ -1079,6 +1079,7 @@ const ROOM_DEF glb_tutorial_roomdef =
 	glb_tutorial_itemtypelist,
 	glb_tutorial_moblevellist,
 	glb_tutorial_intrinsiclist,
+	0,
 	-1, -1,
 	0,
 	0, 0,

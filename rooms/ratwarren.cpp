@@ -133,6 +133,7 @@ const ROOM_DEF glb_ratwarren_roomdef =
 	glb_ratwarren_itemtypelist,
 	glb_ratwarren_moblevellist,
 	glb_ratwarren_intrinsiclist,
+	0,
 	10, -1,
 	100,
 	0, 0,

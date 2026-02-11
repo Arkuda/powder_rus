@@ -464,6 +464,15 @@ const unsigned short *bmp_slug_and_blood = bmp_slug_and_blood_data;
 #endif
 
 //
+// Cyrillic tiles:
+//
+
+#define bmp_cyrillic cyrillic_source_tiles
+    #include "cyrillic.bmp.c"
+#undef bmp_cyrillic
+const unsigned char *cyrillic_Tiles = (const unsigned char *)cyrillic_source_tiles;
+
+//
 // Tileset linkage:
 //	This is intentionaly not const so we can edit it with any
 //	tilesets we find on disk.
@@ -498,6 +507,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_adambolt_heavy_Tiles,
 	    alphabet_adambolt_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_adambolt_Tiles,
 	mini16_adambolt_Tiles,
 	minif16_adambolt_Tiles,
@@ -517,6 +527,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_nethack_heavy_Tiles,
 	    alphabet_nethack_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_nethack_Tiles,
 	mini16_nethack_Tiles,
 	minif16_nethack_Tiles,
@@ -535,6 +546,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_ascii_heavy_Tiles,
 	    alphabet_ascii_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_ascii_Tiles,
 	mini16_ascii_Tiles,
 	minif16_ascii_Tiles,
@@ -553,6 +565,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_akoimeexx_heavy_Tiles,
 	    alphabet_akoimeexx_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_akoimeexx_Tiles,
 	mini16_akoimeexx_Tiles,
 	minif16_akoimeexx_Tiles,
@@ -572,6 +585,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_distorted_heavy_Tiles,
 	    alphabet_distorted_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_distorted_Tiles,
 	mini16_distorted_Tiles,
 	minif16_distorted_Tiles,
@@ -591,6 +605,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_akoi12_heavy_Tiles,
 	    alphabet_akoi12_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_akoi12_Tiles,
 	mini16_akoi12_Tiles,
 	minif16_akoi12_Tiles,
@@ -608,6 +623,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_akoi10_heavy_Tiles,
 	    alphabet_akoi10_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_akoi10_Tiles,
 	mini16_akoi10_Tiles,
 	minif16_akoi10_Tiles,
@@ -627,6 +643,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_ibsongrey_heavy_Tiles,
 	    alphabet_ibsongrey_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_ibsongrey_Tiles,
 	mini16_ibsongrey_Tiles,
 	minif16_ibsongrey_Tiles,
@@ -645,6 +662,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    alphabet_lomaka_heavy_Tiles,
 	    alphabet_lomaka_light_Tiles,
 	},
+	cyrillic_Tiles,
 	dungeon16_lomaka_Tiles,
 	mini16_lomaka_Tiles,
 	minif16_lomaka_Tiles,
@@ -662,6 +680,7 @@ TILESET glb_tilesetdata[NUM_TILESETS] =
 	    0,
 	    0,
 	},
+	0,
 	0,
 	0,
 	0,

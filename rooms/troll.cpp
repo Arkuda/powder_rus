@@ -129,6 +129,7 @@ const ROOM_DEF glb_troll_roomdef =
 	glb_troll_itemtypelist,
 	glb_troll_moblevellist,
 	glb_troll_intrinsiclist,
+	0,
 	5, -1,
 	100,
 	0, 0,

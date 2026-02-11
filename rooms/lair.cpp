@@ -127,6 +127,7 @@ const ROOM_DEF glb_lair_roomdef =
 	glb_lair_itemtypelist,
 	glb_lair_moblevellist,
 	glb_lair_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

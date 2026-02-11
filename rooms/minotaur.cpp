@@ -334,6 +334,7 @@ const ROOM_DEF glb_minotaur_roomdef =
 	glb_minotaur_itemtypelist,
 	glb_minotaur_moblevellist,
 	glb_minotaur_intrinsiclist,
+	0,
 	15, 15,
 	100,
 	1, 0,

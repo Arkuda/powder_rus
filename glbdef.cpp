@@ -14,11 +14,11 @@ glb_branchdefs[NUM_BRANCHS] =
   },
   {
     "%U <return> to the main dungeon.",
-    '\207',
+    static_cast<u8>(0x87),
   },
   {
     "%U <enter> a cave made of metal.",
-    '\211',
+    static_cast<u8>(0x89),
   },
 };
 

@@ -363,6 +363,7 @@ const ROOM_DEF glb_quizar_roomdef =
 	glb_quizar_itemtypelist,
 	glb_quizar_moblevellist,
 	glb_quizar_intrinsiclist,
+	0,
 	-1, -1,
 	0,
 	0, 0,

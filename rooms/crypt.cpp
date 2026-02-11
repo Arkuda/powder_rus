@@ -273,6 +273,7 @@ const ROOM_DEF glb_crypt_roomdef =
 	glb_crypt_itemtypelist,
 	glb_crypt_moblevellist,
 	glb_crypt_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

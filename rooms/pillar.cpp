@@ -129,6 +129,7 @@ const ROOM_DEF glb_pillar_roomdef =
 	glb_pillar_itemtypelist,
 	glb_pillar_moblevellist,
 	glb_pillar_intrinsiclist,
+	0,
 	-1, -1,
 	100,
 	0, 0,

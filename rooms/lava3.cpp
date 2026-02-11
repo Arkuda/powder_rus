@@ -100,6 +100,7 @@ const ROOM_DEF glb_lava3_roomdef =
 	glb_lava3_itemtypelist,
 	glb_lava3_moblevellist,
 	glb_lava3_intrinsiclist,
+	0,
 	20, -1,
 	100,
 	0, 0,
