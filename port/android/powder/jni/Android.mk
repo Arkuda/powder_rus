@@ -31,6 +31,11 @@ LOCAL_CPPFLAGS := -DLINUX -DANDROID \
                  -I$(LOCAL_PATH) \
                  -I$(POWDERROOT)/port/android/powder/jni
 
+# Some CI/main variants still expect these generated translation units.
+# Ensure they exist to prevent ndk-build configure failures on missing sources.
+$(shell test -f $(POWDERROOT)/credits.cpp || echo "// Auto-generated fallback translation unit for builds that expect credits.o." > $(POWDERROOT)/credits.cpp)
+$(shell test -f $(POWDERROOT)/license.cpp || echo "// Auto-generated fallback translation unit for builds that expect license.o." > $(POWDERROOT)/license.cpp)
+
 # NOTE: cyrillic helpers are implemented in gfxengine.cpp.
 # Keep jni/cyrillic.cpp out of LOCAL_SRC_FILES to avoid duplicate symbols.
 LOCAL_SRC_FILES := powder-jni.cpp \
