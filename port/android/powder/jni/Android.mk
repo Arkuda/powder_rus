@@ -31,10 +31,11 @@ LOCAL_CPPFLAGS := -DLINUX -DANDROID \
                  -I$(LOCAL_PATH) \
                  -I$(POWDERROOT)/port/android/powder/jni
 
+# NOTE: cyrillic helpers are implemented in gfxengine.cpp.
+# Keep jni/cyrillic.cpp out of LOCAL_SRC_FILES to avoid duplicate symbols.
 LOCAL_SRC_FILES := powder-jni.cpp \
                    android_main.cpp \
                    hamfake_android.cpp \
-                   cyrillic.cpp \
                    $(POWDERROOT)/main.cpp \
                    $(POWDERROOT)/thread.cpp \
                    $(POWDERROOT)/thread_linux.cpp \
@@ -70,8 +71,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/victory.cpp \
                    $(POWDERROOT)/encyclopedia.cpp \
                    $(POWDERROOT)/glbdef.cpp \
-                   $(POWDERROOT)/credits.cpp \
-                   $(POWDERROOT)/license.cpp \
+                   $(POWDERROOT)/localization.cpp \
                    $(POWDERROOT)/gfx/all_bitmaps.cpp \
                    $(POWDERROOT)/rooms/allrooms.cpp \
                    $(POWDERROOT)/port/sdl/src/SDL.c \

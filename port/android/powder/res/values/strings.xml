@@ -10,4 +10,12 @@
     <string name="openfiles">Play Logs</string>
     <string name="stretchscreen">Stretch Screen</string>
 
+    <string name="dialog_view_history_title">View whose history?</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_no_text_viewer">No text viewer installed on this device.</string>
+    <string name="dialog_no_character_logs">No character logs have been saved yet.</string>
+    <string name="dialog_no_external_storage">No external storage configured for this device!</string>
+    <string name="dialog_name_prompt">Name?</string>
+
 </resources>
