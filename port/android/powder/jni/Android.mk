@@ -77,6 +77,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/SDL_utils.c \
                    $(POWDERROOT)/port/sdl/src/SDL_list.c \
                    $(POWDERROOT)/port/sdl/src/SDL_guid.c \
+                   $(POWDERROOT)/port/sdl/src/SDL_dataqueue.c \
                    $(POWDERROOT)/port/sdl/src/atomic/SDL_atomic.c \
                    $(POWDERROOT)/port/sdl/src/atomic/SDL_spinlock.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_audio.c \
@@ -85,6 +86,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_audiotypecvt.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_mixer.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_wave.c \
+                   $(POWDERROOT)/port/sdl/src/audio/dummy/SDL_dummyaudio.c \
                    $(POWDERROOT)/port/sdl/src/audio/android/SDL_androidaudio.c \
                    $(POWDERROOT)/port/sdl/src/audio/aaudio/SDL_aaudio.c \
                    $(POWDERROOT)/port/sdl/src/audio/openslES/SDL_openslES.c \

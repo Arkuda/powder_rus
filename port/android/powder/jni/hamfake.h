@@ -277,10 +277,10 @@ void hamfake_setScrollY(int layer, int scroll);
 //
 
 void ham_Init();
-void ham_StartIntHandler(int intno, void (*fp)());
-void ham_SetBgMode(int mode);
+void ham_StartIntHandler(u8 intno, void (*fp)());
+void ham_SetBgMode(u8 mode);
 void ham_LoadBGPal(void *vpal, int bytes);
-map_info_ptr ham_InitMapEmptySet(int size, int rot);
+map_info_ptr ham_InitMapEmptySet(u8 size, u8 rot);
 tile_info_ptr ham_InitTileEmptySet(int entries, int colormode, int onlybaseblock);
 void ham_InitBg(int layer, int active, int priority, int mosaic);
 void ham_CreateWin(int wid, int, int, int, int, int, int, int);
