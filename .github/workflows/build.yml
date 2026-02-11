@@ -109,6 +109,12 @@ jobs:
         yes | sdkmanager --licenses
         sdkmanager --install "ndk;21.4.7075529"
 
+    - name: Prepare SDL include compatibility links
+      run: |
+        for header in port/sdl/include/SDL2/*.h; do
+          ln -sf "SDL2/$(basename "$header")" "port/sdl/include/$(basename "$header")"
+        done
+
     - name: Build bitmap conversion tools
       run: |
         g++ -O2 -std=c++11 -o support/tile2c/tile2c support/tile2c/tile2c_main.cpp support/tile2c/bmp.cpp
