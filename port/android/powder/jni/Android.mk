@@ -188,6 +188,7 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/SDL_vulkan_utils.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_yuv.c \
                    $(POWDERROOT)/port/sdl/src/video/yuv2rgb/yuv_rgb_std.c \
+                   $(POWDERROOT)/port/sdl/src/video/yuv2rgb/yuv_rgb_sse.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidclipboard.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidevents.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidgl.c \
