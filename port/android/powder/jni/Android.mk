@@ -89,6 +89,8 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_mixer.c \
                    $(POWDERROOT)/port/sdl/src/audio/SDL_wave.c \
                    $(POWDERROOT)/port/sdl/src/audio/android/SDL_androidaudio.c \
+                   $(POWDERROOT)/port/sdl/src/audio/aaudio/SDL_aaudio.c \
+                   $(POWDERROOT)/port/sdl/src/audio/openslES/SDL_openslES.c \
                    $(POWDERROOT)/port/sdl/src/core/android/SDL_android.c \
                    $(POWDERROOT)/port/sdl/src/cpuinfo/SDL_cpuinfo.c \
                    $(POWDERROOT)/port/sdl/src/events/SDL_clipboardevents.c \
@@ -114,6 +116,8 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/render/SDL_yuv_sw.c \
                    $(POWDERROOT)/port/sdl/src/render/opengles/SDL_render_gles.c \
                    $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_render_gles2.c \
+                   $(POWDERROOT)/port/sdl/src/render/opengles2/SDL_shaders_gles2.c \
+                   $(POWDERROOT)/port/sdl/src/render/software/SDL_render_sw.c \
                    $(POWDERROOT)/port/sdl/src/sensor/SDL_sensor.c \
                    $(POWDERROOT)/port/sdl/src/sensor/android/SDL_androidsensor.c \
                    $(POWDERROOT)/port/sdl/src/stdlib/SDL_crc16.c \
@@ -150,9 +154,11 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/SDL_shape.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_stretch.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_surface.c \
+                   $(POWDERROOT)/port/sdl/src/video/SDL_RLEaccel.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_video.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_vulkan_utils.c \
                    $(POWDERROOT)/port/sdl/src/video/SDL_yuv.c \
+                   $(POWDERROOT)/port/sdl/src/video/yuv2rgb/yuv_rgb_std.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidclipboard.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidevents.c \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidgl.c \
@@ -165,6 +171,6 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidwindow.c
 
 LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID
-LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog
+LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid -lOpenSLES -laaudio
 
 include $(BUILD_SHARED_LIBRARY)
