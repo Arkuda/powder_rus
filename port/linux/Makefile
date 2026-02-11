@@ -35,9 +35,12 @@ OFILES = linuxmain.o \
 	 ../../glbdef.o \
 	 ../../credits.o \
 	 ../../license.o \
-	 ../../localization.o \
 	 ../../gfx/all_bitmaps.o \
 	 ../../rooms/allrooms.o
+
+# Keep localization object appended separately to minimize merge conflicts
+# with main branch changes in the long OFILES block.
+OFILES += ../../localization.o
 
 PREMAKE = ../../support/map2c/map2c \
 	  ../../support/tile2c/tile2c \
