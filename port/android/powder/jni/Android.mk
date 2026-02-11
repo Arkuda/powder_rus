@@ -32,9 +32,6 @@ LOCAL_CPPFLAGS := -DLINUX -DANDROID \
                  -I$(POWDERROOT)/port/android/powder/jni
 
 LOCAL_SRC_FILES := powder-jni.cpp \
-                   android_main.cpp \
-                   hamfake_android.cpp \
-                   cyrillic.cpp \
                    $(POWDERROOT)/main.cpp \
                    $(POWDERROOT)/thread.cpp \
                    $(POWDERROOT)/thread_linux.cpp \
@@ -171,6 +168,6 @@ LOCAL_SRC_FILES := powder-jni.cpp \
                    $(POWDERROOT)/port/sdl/src/video/android/SDL_androidwindow.c
 
 LOCAL_CFLAGS := -DGL_GLEXT_PROTOTYPES -DANDROID
-LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid -lOpenSLES -laaudio
+LOCAL_LDLIBS := -ldl -lGLESv1_CM -lGLESv2 -llog -landroid -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)
