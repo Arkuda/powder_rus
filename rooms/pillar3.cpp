@@ -125,6 +125,11 @@ const PT2 glb_pillar3_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_pillar3_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_pillar3_roomdef =
 {
 	{ 8, 8, 0 },
@@ -135,7 +140,7 @@ const ROOM_DEF glb_pillar3_roomdef =
 	glb_pillar3_itemtypelist,
 	glb_pillar3_moblevellist,
 	glb_pillar3_intrinsiclist,
-	0,
+	glb_pillar3_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -145,5 +150,6 @@ const ROOM_DEF glb_pillar3_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"pillar3"
 };

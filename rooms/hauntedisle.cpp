@@ -98,6 +98,11 @@ const PT2 glb_hauntedisle_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_hauntedisle_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_hauntedisle_roomdef =
 {
 	{ 8, 6, 0 },
@@ -108,7 +113,7 @@ const ROOM_DEF glb_hauntedisle_roomdef =
 	glb_hauntedisle_itemtypelist,
 	glb_hauntedisle_moblevellist,
 	glb_hauntedisle_intrinsiclist,
-	0,
+	glb_hauntedisle_signpostlist,
 	3, -1,
 	100,
 	0, 0,
@@ -118,5 +123,6 @@ const ROOM_DEF glb_hauntedisle_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"hauntedisle"
 };

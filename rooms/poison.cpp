@@ -138,6 +138,11 @@ const PT2 glb_poison_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_poison_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_poison_roomdef =
 {
 	{ 8, 9, 0 },
@@ -148,7 +153,7 @@ const ROOM_DEF glb_poison_roomdef =
 	glb_poison_itemtypelist,
 	glb_poison_moblevellist,
 	glb_poison_intrinsiclist,
-	0,
+	glb_poison_signpostlist,
 	10, -1,
 	100,
 	0, 0,
@@ -158,5 +163,6 @@ const ROOM_DEF glb_poison_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"poison"
 };

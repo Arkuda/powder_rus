@@ -123,6 +123,11 @@ const PT2 glb_kobold_hideout_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_kobold_hideout_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_kobold_hideout_roomdef =
 {
 	{ 9, 7, 0 },
@@ -133,7 +138,7 @@ const ROOM_DEF glb_kobold_hideout_roomdef =
 	glb_kobold_hideout_itemtypelist,
 	glb_kobold_hideout_moblevellist,
 	glb_kobold_hideout_intrinsiclist,
-	0,
+	glb_kobold_hideout_signpostlist,
 	5, -1,
 	100,
 	0, 0,
@@ -143,5 +148,6 @@ const ROOM_DEF glb_kobold_hideout_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"kobold_hideout"
 };

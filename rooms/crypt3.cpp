@@ -101,6 +101,11 @@ const PT2 glb_crypt3_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_crypt3_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_crypt3_roomdef =
 {
 	{ 9, 7, 0 },
@@ -111,7 +116,7 @@ const ROOM_DEF glb_crypt3_roomdef =
 	glb_crypt3_itemtypelist,
 	glb_crypt3_moblevellist,
 	glb_crypt3_intrinsiclist,
-	0,
+	glb_crypt3_signpostlist,
 	8, -1,
 	100,
 	0, 0,
@@ -121,5 +126,6 @@ const ROOM_DEF glb_crypt3_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"crypt3"
 };

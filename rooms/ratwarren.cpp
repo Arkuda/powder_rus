@@ -53,27 +53,7 @@ const PT2 glb_ratwarren_moblevellist[] =
 
 const PT2 glb_ratwarren_intrinsiclist[] =
 {
-	{ 4, 5, INTRINSIC_ASLEEP },
-	{ 3, 5, INTRINSIC_ASLEEP },
-	{ 2, 5, INTRINSIC_ASLEEP },
-	{ 1, 5, INTRINSIC_ASLEEP },
-	{ 4, 4, INTRINSIC_ASLEEP },
-	{ 3, 4, INTRINSIC_ASLEEP },
-	{ 2, 4, INTRINSIC_ASLEEP },
-	{ 1, 4, INTRINSIC_ASLEEP },
-	{ 4, 3, INTRINSIC_ASLEEP },
-	{ 3, 3, INTRINSIC_ASLEEP },
-	{ 2, 3, INTRINSIC_ASLEEP },
-	{ 1, 3, INTRINSIC_ASLEEP },
-	{ 4, 2, INTRINSIC_ASLEEP },
-	{ 3, 2, INTRINSIC_ASLEEP },
-	{ 2, 2, INTRINSIC_ASLEEP },
-	{ 1, 2, INTRINSIC_ASLEEP },
-	{ 4, 1, INTRINSIC_ASLEEP },
-	{ 3, 1, INTRINSIC_ASLEEP },
-	{ 2, 1, INTRINSIC_ASLEEP },
-	{ 1, 1, INTRINSIC_ASLEEP },
-	PT2::end()
+	{ -1, -1, INTRINSIC_NONE }
 };
 
 const PT2 glb_ratwarren_squareflaglist[] =
@@ -120,12 +100,17 @@ const PT2 glb_ratwarren_squareflaglist[] =
 	{ 2, 0, SQUAREFLAG_LIT },
 	{ 1, 0, SQUAREFLAG_LIT },
 	{ 0, 0, SQUAREFLAG_LIT },
-	PT2::end()
+	{ -1, -1, SQUAREFLAG_NONE }
+};
+
+const PT2 glb_ratwarren_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
 };
 
 const ROOM_DEF glb_ratwarren_roomdef =
 {
-	{ 6, 6, 0 },
+	{ 6, 7, 0 },
 	glb_ratwarren_squarelist,
 	glb_ratwarren_squareflaglist,
 	glb_ratwarren_itemlist,
@@ -133,8 +118,8 @@ const ROOM_DEF glb_ratwarren_roomdef =
 	glb_ratwarren_itemtypelist,
 	glb_ratwarren_moblevellist,
 	glb_ratwarren_intrinsiclist,
-	0,
-	10, -1,
+	glb_ratwarren_signpostlist,
+	-1, -1,
 	100,
 	0, 0,
 	0,
@@ -143,5 +128,6 @@ const ROOM_DEF glb_ratwarren_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"ratwarren"
 };

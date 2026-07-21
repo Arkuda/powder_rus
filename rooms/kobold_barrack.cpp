@@ -142,6 +142,11 @@ const PT2 glb_kobold_barrack_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_kobold_barrack_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_kobold_barrack_roomdef =
 {
 	{ 8, 7, 0 },
@@ -152,7 +157,7 @@ const ROOM_DEF glb_kobold_barrack_roomdef =
 	glb_kobold_barrack_itemtypelist,
 	glb_kobold_barrack_moblevellist,
 	glb_kobold_barrack_intrinsiclist,
-	0,
+	glb_kobold_barrack_signpostlist,
 	5, -1,
 	100,
 	0, 0,
@@ -162,5 +167,6 @@ const ROOM_DEF glb_kobold_barrack_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"kobold_barrack"
 };

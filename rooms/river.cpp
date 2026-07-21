@@ -83,6 +83,11 @@ const PT2 glb_river_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_river_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_river_roomdef =
 {
 	{ 7, 5, 0 },
@@ -93,7 +98,7 @@ const ROOM_DEF glb_river_roomdef =
 	glb_river_itemtypelist,
 	glb_river_moblevellist,
 	glb_river_intrinsiclist,
-	0,
+	glb_river_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -103,5 +108,6 @@ const ROOM_DEF glb_river_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"river"
 };

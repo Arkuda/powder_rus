@@ -368,6 +368,11 @@ const PT2 glb_belweir_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_belweir_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_belweir_roomdef =
 {
 	{ 13, 16, 0 },
@@ -378,7 +383,7 @@ const ROOM_DEF glb_belweir_roomdef =
 	glb_belweir_itemtypelist,
 	glb_belweir_moblevellist,
 	glb_belweir_intrinsiclist,
-	0,
+	glb_belweir_signpostlist,
 	21, 21,
 	100,
 	1, 0,
@@ -388,5 +393,6 @@ const ROOM_DEF glb_belweir_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"belweir"
 };

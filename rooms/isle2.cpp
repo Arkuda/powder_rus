@@ -138,6 +138,11 @@ const PT2 glb_isle2_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_isle2_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_isle2_roomdef =
 {
 	{ 10, 8, 0 },
@@ -148,7 +153,7 @@ const ROOM_DEF glb_isle2_roomdef =
 	glb_isle2_itemtypelist,
 	glb_isle2_moblevellist,
 	glb_isle2_intrinsiclist,
-	0,
+	glb_isle2_signpostlist,
 	4, -1,
 	100,
 	0, 0,
@@ -158,5 +163,6 @@ const ROOM_DEF glb_isle2_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"isle2"
 };

@@ -176,6 +176,11 @@ const PT2 glb_slug_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_slug_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_slug_roomdef =
 {
 	{ 11, 9, 0 },
@@ -186,7 +191,7 @@ const ROOM_DEF glb_slug_roomdef =
 	glb_slug_itemtypelist,
 	glb_slug_moblevellist,
 	glb_slug_intrinsiclist,
-	0,
+	glb_slug_signpostlist,
 	6, -1,
 	100,
 	0, 0,
@@ -196,5 +201,6 @@ const ROOM_DEF glb_slug_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"slug"
 };

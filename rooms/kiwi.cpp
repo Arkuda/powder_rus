@@ -79,6 +79,11 @@ const PT2 glb_kiwi_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_kiwi_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_kiwi_roomdef =
 {
 	{ 7, 5, 0 },
@@ -89,7 +94,7 @@ const ROOM_DEF glb_kiwi_roomdef =
 	glb_kiwi_itemtypelist,
 	glb_kiwi_moblevellist,
 	glb_kiwi_intrinsiclist,
-	0,
+	glb_kiwi_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -99,5 +104,6 @@ const ROOM_DEF glb_kiwi_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"kiwi"
 };

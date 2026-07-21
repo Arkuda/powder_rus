@@ -30,6 +30,8 @@ OFILES = linuxmain.o \
 	 ../../speed.o \
 	 ../../sramstream.o \
 	 ../../stylus.o \
+	 ../../thread.o \
+	 ../../thread_linux.o \
 	 ../../victory.o \
 	 ../../encyclopedia.o \
 	 ../../glbdef.o \
@@ -48,10 +50,10 @@ PREMAKE = ../../support/map2c/map2c \
 all: $(TARGET)
 
 powder: $(OFILES)
-	$(CXX) -o $(TARGET) $(OFILES) `sdl-config --libs` $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) -o $(TARGET) $(OFILES) `sdl2-config --libs` $(CXXFLAGS) $(LDFLAGS)
 
 .cpp.o:
-	$(CXX) -DLINUX -I ../../port/sdl `sdl-config --cflags` -c $< -o $@ $(CXXFLAGS)
+	$(CXX) -DLINUX -I ../../port/sdl -I ../../port/sdl/include `sdl2-config --cflags` -c $< -o $@ $(CXXFLAGS) -Wno-write-strings -Wno-narrowing
 
 powder-static: premake $(OFILES)
 	# This extra step is from:
@@ -60,7 +62,7 @@ powder-static: premake $(OFILES)
 	# of stdc++.
 	$(RM) libstdc++.a
 	ln -s `$(CXX) -print-file-name=libstdc++.a`
-	$(CXX) -static-libgcc -L. -o $(TARGET) $(OFILES) `sdl-config --libs` $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) -static-libgcc -L. -o $(TARGET) $(OFILES) `sdl2-config --libs` $(CXXFLAGS) $(LDFLAGS)
 
 clean:
 	$(RM) $(OFILES)

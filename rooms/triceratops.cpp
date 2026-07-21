@@ -68,6 +68,11 @@ const PT2 glb_triceratops_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_triceratops_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_triceratops_roomdef =
 {
 	{ 7, 5, 0 },
@@ -78,7 +83,7 @@ const ROOM_DEF glb_triceratops_roomdef =
 	glb_triceratops_itemtypelist,
 	glb_triceratops_moblevellist,
 	glb_triceratops_intrinsiclist,
-	0,
+	glb_triceratops_signpostlist,
 	9, -1,
 	100,
 	0, 0,
@@ -88,5 +93,6 @@ const ROOM_DEF glb_triceratops_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"triceratops"
 };

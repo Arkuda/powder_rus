@@ -91,6 +91,11 @@ const PT2 glb_forest_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_forest_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_forest_roomdef =
 {
 	{ 8, 8, 0 },
@@ -101,7 +106,7 @@ const ROOM_DEF glb_forest_roomdef =
 	glb_forest_itemtypelist,
 	glb_forest_moblevellist,
 	glb_forest_intrinsiclist,
-	0,
+	glb_forest_signpostlist,
 	8, -1,
 	100,
 	0, 0,
@@ -111,5 +116,6 @@ const ROOM_DEF glb_forest_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"forest"
 };

@@ -119,6 +119,11 @@ const PT2 glb_hall2_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_hall2_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_hall2_roomdef =
 {
 	{ 8, 8, 0 },
@@ -129,7 +134,7 @@ const ROOM_DEF glb_hall2_roomdef =
 	glb_hall2_itemtypelist,
 	glb_hall2_moblevellist,
 	glb_hall2_intrinsiclist,
-	0,
+	glb_hall2_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -139,5 +144,6 @@ const ROOM_DEF glb_hall2_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"hall2"
 };

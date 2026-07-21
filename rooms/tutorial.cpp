@@ -1069,6 +1069,29 @@ const PT2 glb_tutorial_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_tutorial_signpostlist[] =
+{
+	{ 13, 27, SIGNPOST_WONTUTORIAL },
+	{ 14, 21, SIGNPOST_DRAGONS },
+	{ 11, 18, SIGNPOST_DARK },
+	{ 21, 17, SIGNPOST_QUIVER },
+	{ 26, 14, SIGNPOST_DIP },
+	{ 16, 12, SIGNPOST_SEARCH },
+	{ 12, 12, SIGNPOST_SPELLS },
+	{ 5, 11, SIGNPOST_WATER },
+	{ 24, 8, SIGNPOST_USE },
+	{ 14, 6, SIGNPOST_DOOR },
+	{ 11, 6, SIGNPOST_PICKUP },
+	{ 7, 6, SIGNPOST_INVENTORY },
+	{ 19, 5, SIGNPOST_MELEE },
+	{ 26, 4, SIGNPOST_KIWI },
+	{ 15, 2, SIGNPOST_BOULDER },
+	{ 7, 2, SIGNPOST_MINIMAP },
+	{ 3, 2, SIGNPOST_WELCOME },
+	{ 26, 1, SIGNPOST_LOOK },
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_tutorial_roomdef =
 {
 	{ 30, 31, 0 },
@@ -1079,7 +1102,7 @@ const ROOM_DEF glb_tutorial_roomdef =
 	glb_tutorial_itemtypelist,
 	glb_tutorial_moblevellist,
 	glb_tutorial_intrinsiclist,
-	0,
+	glb_tutorial_signpostlist,
 	-1, -1,
 	0,
 	0, 0,
@@ -1089,5 +1112,6 @@ const ROOM_DEF glb_tutorial_roomdef =
 	0,
 	0,
 	0, 0, 
-	-1
+	-1, 
+	"tutorial"
 };

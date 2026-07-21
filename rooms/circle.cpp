@@ -149,6 +149,11 @@ const PT2 glb_circle_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_circle_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_circle_roomdef =
 {
 	{ 10, 10, 0 },
@@ -159,7 +164,7 @@ const ROOM_DEF glb_circle_roomdef =
 	glb_circle_itemtypelist,
 	glb_circle_moblevellist,
 	glb_circle_intrinsiclist,
-	0,
+	glb_circle_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -169,5 +174,6 @@ const ROOM_DEF glb_circle_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"circle"
 };

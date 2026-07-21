@@ -176,6 +176,11 @@ const PT2 glb_orc_lair2_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_orc_lair2_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_orc_lair2_roomdef =
 {
 	{ 10, 10, 0 },
@@ -186,7 +191,7 @@ const ROOM_DEF glb_orc_lair2_roomdef =
 	glb_orc_lair2_itemtypelist,
 	glb_orc_lair2_moblevellist,
 	glb_orc_lair2_intrinsiclist,
-	0,
+	glb_orc_lair2_signpostlist,
 	10, -1,
 	100,
 	0, 0,
@@ -196,5 +201,6 @@ const ROOM_DEF glb_orc_lair2_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"orc_lair2"
 };

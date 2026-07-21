@@ -1194,6 +1194,11 @@ const PT2 glb_klaskov_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_klaskov_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_klaskov_roomdef =
 {
 	{ 30, 30, 0 },
@@ -1204,7 +1209,7 @@ const ROOM_DEF glb_klaskov_roomdef =
 	glb_klaskov_itemtypelist,
 	glb_klaskov_moblevellist,
 	glb_klaskov_intrinsiclist,
-	0,
+	glb_klaskov_signpostlist,
 	-1, -1,
 	0,
 	0, 0,
@@ -1214,5 +1219,6 @@ const ROOM_DEF glb_klaskov_roomdef =
 	0,
 	0,
 	0, 0, 
-	GOD_FIGHTER
+	GOD_FIGHTER, 
+	"klaskov"
 };

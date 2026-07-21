@@ -324,6 +324,11 @@ const PT2 glb_minotaur_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_minotaur_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_minotaur_roomdef =
 {
 	{ 15, 15, 0 },
@@ -334,7 +339,7 @@ const ROOM_DEF glb_minotaur_roomdef =
 	glb_minotaur_itemtypelist,
 	glb_minotaur_moblevellist,
 	glb_minotaur_intrinsiclist,
-	0,
+	glb_minotaur_signpostlist,
 	15, 15,
 	100,
 	1, 0,
@@ -344,5 +349,6 @@ const ROOM_DEF glb_minotaur_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"minotaur"
 };

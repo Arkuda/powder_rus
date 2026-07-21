@@ -6206,12 +6206,20 @@ processAllInput(ACTION_NAMES &action, SPELL_NAMES &spell, int &dx, int &dy)
 
 #ifdef USE_VIRTUAL_SCREEN
 
+#ifndef LINUX
 int fake_main();
+#else
+int main();
+#endif
 
 void *
 fakemainCB(void *)
 {
+#ifdef LINUX
+    main();
+#else
     fake_main();
+#endif
 
     return 0;
 }
@@ -6255,7 +6263,9 @@ android_main(const char *path)
     return false;
 }
 
+#ifndef LINUX
 #define main fake_main
+#endif
 
 #endif
 
@@ -6298,11 +6308,13 @@ buildMapStats()
 }
 #endif
 
+#ifndef LINUX
 // Переименовываем main в fake_main до определения макроса
 int fake_main(int argc, char *argv[]);
 
 // Теперь можно определить макрос
 #define main fake_main
+#endif
 
 int 
 main(void)

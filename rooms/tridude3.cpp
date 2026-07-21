@@ -139,6 +139,11 @@ const PT2 glb_tridude3_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_tridude3_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_tridude3_roomdef =
 {
 	{ 8, 9, 0 },
@@ -149,7 +154,7 @@ const ROOM_DEF glb_tridude3_roomdef =
 	glb_tridude3_itemtypelist,
 	glb_tridude3_moblevellist,
 	glb_tridude3_intrinsiclist,
-	0,
+	glb_tridude3_signpostlist,
 	13, -1,
 	100,
 	0, 0,
@@ -159,5 +164,6 @@ const ROOM_DEF glb_tridude3_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"tridude3"
 };

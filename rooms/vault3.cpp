@@ -113,6 +113,11 @@ const PT2 glb_vault3_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_vault3_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_vault3_roomdef =
 {
 	{ 8, 7, 0 },
@@ -123,7 +128,7 @@ const ROOM_DEF glb_vault3_roomdef =
 	glb_vault3_itemtypelist,
 	glb_vault3_moblevellist,
 	glb_vault3_intrinsiclist,
-	0,
+	glb_vault3_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -133,5 +138,6 @@ const ROOM_DEF glb_vault3_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"vault3"
 };

@@ -146,6 +146,11 @@ const PT2 glb_troll3_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_troll3_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_troll3_roomdef =
 {
 	{ 9, 8, 0 },
@@ -156,7 +161,7 @@ const ROOM_DEF glb_troll3_roomdef =
 	glb_troll3_itemtypelist,
 	glb_troll3_moblevellist,
 	glb_troll3_intrinsiclist,
-	0,
+	glb_troll3_signpostlist,
 	5, -1,
 	100,
 	0, 0,
@@ -166,5 +171,6 @@ const ROOM_DEF glb_troll3_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"troll3"
 };

@@ -117,6 +117,11 @@ const PT2 glb_lair_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_lair_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_lair_roomdef =
 {
 	{ 14, 7, 0 },
@@ -127,7 +132,7 @@ const ROOM_DEF glb_lair_roomdef =
 	glb_lair_itemtypelist,
 	glb_lair_moblevellist,
 	glb_lair_intrinsiclist,
-	0,
+	glb_lair_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -137,5 +142,6 @@ const ROOM_DEF glb_lair_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"lair"
 };

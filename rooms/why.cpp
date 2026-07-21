@@ -64,6 +64,11 @@ const PT2 glb_why_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_why_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_why_roomdef =
 {
 	{ 5, 4, 0 },
@@ -74,7 +79,7 @@ const ROOM_DEF glb_why_roomdef =
 	glb_why_itemtypelist,
 	glb_why_moblevellist,
 	glb_why_intrinsiclist,
-	0,
+	glb_why_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -84,5 +89,6 @@ const ROOM_DEF glb_why_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"why"
 };

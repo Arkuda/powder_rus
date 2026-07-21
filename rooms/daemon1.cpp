@@ -179,6 +179,11 @@ const PT2 glb_daemon1_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_daemon1_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_daemon1_roomdef =
 {
 	{ 11, 9, 0 },
@@ -189,7 +194,7 @@ const ROOM_DEF glb_daemon1_roomdef =
 	glb_daemon1_itemtypelist,
 	glb_daemon1_moblevellist,
 	glb_daemon1_intrinsiclist,
-	0,
+	glb_daemon1_signpostlist,
 	6, -1,
 	100,
 	0, 0,
@@ -199,5 +204,6 @@ const ROOM_DEF glb_daemon1_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"daemon1"
 };

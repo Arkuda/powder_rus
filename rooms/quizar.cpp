@@ -353,6 +353,11 @@ const PT2 glb_quizar_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_quizar_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_quizar_roomdef =
 {
 	{ 30, 31, 0 },
@@ -363,7 +368,7 @@ const ROOM_DEF glb_quizar_roomdef =
 	glb_quizar_itemtypelist,
 	glb_quizar_moblevellist,
 	glb_quizar_intrinsiclist,
-	0,
+	glb_quizar_signpostlist,
 	-1, -1,
 	0,
 	0, 0,
@@ -373,5 +378,6 @@ const ROOM_DEF glb_quizar_roomdef =
 	1,
 	0,
 	0, 0, 
-	GOD_ROGUE
+	GOD_ROGUE, 
+	"quizar"
 };

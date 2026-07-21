@@ -105,6 +105,11 @@ const PT2 glb_ratwarren2_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_ratwarren2_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_ratwarren2_roomdef =
 {
 	{ 6, 7, 0 },
@@ -115,7 +120,7 @@ const ROOM_DEF glb_ratwarren2_roomdef =
 	glb_ratwarren2_itemtypelist,
 	glb_ratwarren2_moblevellist,
 	glb_ratwarren2_intrinsiclist,
-	0,
+	glb_ratwarren2_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -125,5 +130,6 @@ const ROOM_DEF glb_ratwarren2_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"ratwarren2"
 };

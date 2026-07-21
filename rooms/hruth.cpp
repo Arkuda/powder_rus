@@ -1121,6 +1121,11 @@ const PT2 glb_hruth_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_hruth_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_hruth_roomdef =
 {
 	{ 30, 28, 0 },
@@ -1131,7 +1136,7 @@ const ROOM_DEF glb_hruth_roomdef =
 	glb_hruth_itemtypelist,
 	glb_hruth_moblevellist,
 	glb_hruth_intrinsiclist,
-	0,
+	glb_hruth_signpostlist,
 	-1, -1,
 	0,
 	0, 0,
@@ -1141,5 +1146,6 @@ const ROOM_DEF glb_hruth_roomdef =
 	0,
 	0,
 	0, 0, 
-	GOD_BARB
+	GOD_BARB, 
+	"hruth"
 };

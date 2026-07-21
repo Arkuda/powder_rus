@@ -91,6 +91,11 @@ const PT2 glb_lava4_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_lava4_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_lava4_roomdef =
 {
 	{ 8, 8, 0 },
@@ -101,7 +106,7 @@ const ROOM_DEF glb_lava4_roomdef =
 	glb_lava4_itemtypelist,
 	glb_lava4_moblevellist,
 	glb_lava4_intrinsiclist,
-	0,
+	glb_lava4_signpostlist,
 	6, -1,
 	100,
 	0, 0,
@@ -111,5 +116,6 @@ const ROOM_DEF glb_lava4_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"lava4"
 };

@@ -102,6 +102,11 @@ const PT2 glb_turtloid_pond_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_turtloid_pond_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_turtloid_pond_roomdef =
 {
 	{ 9, 8, 0 },
@@ -112,7 +117,7 @@ const ROOM_DEF glb_turtloid_pond_roomdef =
 	glb_turtloid_pond_itemtypelist,
 	glb_turtloid_pond_moblevellist,
 	glb_turtloid_pond_intrinsiclist,
-	0,
+	glb_turtloid_pond_signpostlist,
 	20, -1,
 	100,
 	0, 0,
@@ -122,5 +127,6 @@ const ROOM_DEF glb_turtloid_pond_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"turtloid_pond"
 };

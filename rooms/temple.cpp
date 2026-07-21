@@ -200,6 +200,11 @@ const PT2 glb_temple_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_temple_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_temple_roomdef =
 {
 	{ 11, 11, 0 },
@@ -210,7 +215,7 @@ const ROOM_DEF glb_temple_roomdef =
 	glb_temple_itemtypelist,
 	glb_temple_moblevellist,
 	glb_temple_intrinsiclist,
-	0,
+	glb_temple_signpostlist,
 	3, -1,
 	100,
 	0, 0,
@@ -220,5 +225,6 @@ const ROOM_DEF glb_temple_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"temple"
 };

@@ -76,6 +76,11 @@ const PT2 glb_zoo_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_zoo_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_zoo_roomdef =
 {
 	{ 4, 5, 0 },
@@ -86,7 +91,7 @@ const ROOM_DEF glb_zoo_roomdef =
 	glb_zoo_itemtypelist,
 	glb_zoo_moblevellist,
 	glb_zoo_intrinsiclist,
-	0,
+	glb_zoo_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -96,5 +101,6 @@ const ROOM_DEF glb_zoo_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"zoo"
 };

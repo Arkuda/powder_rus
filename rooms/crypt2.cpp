@@ -129,6 +129,11 @@ const PT2 glb_crypt2_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_crypt2_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_crypt2_roomdef =
 {
 	{ 9, 7, 0 },
@@ -139,7 +144,7 @@ const ROOM_DEF glb_crypt2_roomdef =
 	glb_crypt2_itemtypelist,
 	glb_crypt2_moblevellist,
 	glb_crypt2_intrinsiclist,
-	0,
+	glb_crypt2_signpostlist,
 	2, -1,
 	100,
 	0, 0,
@@ -149,5 +154,6 @@ const ROOM_DEF glb_crypt2_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"crypt2"
 };

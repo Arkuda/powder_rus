@@ -92,6 +92,11 @@ const PT2 glb_sokoban_squareflaglist[] =
 	{ -1, -1, SQUAREFLAG_NONE }
 };
 
+const PT2 glb_sokoban_signpostlist[] =
+{
+	{ -1, -1, SIGNPOST_NONE }
+};
+
 const ROOM_DEF glb_sokoban_roomdef =
 {
 	{ 9, 5, 0 },
@@ -102,7 +107,7 @@ const ROOM_DEF glb_sokoban_roomdef =
 	glb_sokoban_itemtypelist,
 	glb_sokoban_moblevellist,
 	glb_sokoban_intrinsiclist,
-	0,
+	glb_sokoban_signpostlist,
 	-1, -1,
 	100,
 	0, 0,
@@ -112,5 +117,6 @@ const ROOM_DEF glb_sokoban_roomdef =
 	1,
 	1,
 	-1, -1, 
-	-1
+	-1, 
+	"sokoban"
 };
