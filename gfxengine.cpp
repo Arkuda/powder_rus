@@ -4563,41 +4563,83 @@ gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
 {
     const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic;
     source += sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT;
+    const u8 white = (u8)gfx_lookupcolor(255, 255, 255);
+    const u8 shadow = 0x20;
+    const int threshold = 12;
+    int minx = CYRILLIC_WIDTH;
+    int miny = CYRILLIC_HEIGHT;
+    int maxx = -1;
+    int maxy = -1;
+
+    memset(dst, 0, BYTEPERTILE);
+    u8 mask[BYTEPERTILE];
+    memset(mask, 0, BYTEPERTILE);
+
+    // Find the actual ink bounds.  The source atlas has generous side
+    // bearings, which become excessive when a 20px glyph is reduced to 8px.
+    for (int y = 0; y < CYRILLIC_HEIGHT; y++)
+    {
+	for (int x = 0; x < CYRILLIC_WIDTH; x++)
+	{
+	    u16 pixel = source[y * CYRILLIC_WIDTH + x];
+	    int value = (pixel & 31) + ((pixel >> 5) & 31) +
+			((pixel >> 10) & 31);
+	    if (value > threshold)
+	    {
+		if (x < minx) minx = x;
+		if (x > maxx) maxx = x;
+		if (y < miny) miny = y;
+		if (y > maxy) maxy = y;
+	    }
+	}
+    }
+
+    if (maxx < minx || maxy < miny)
+	return;
+
+    const int sourcewidth = maxx - minx + 1;
+    const int sourceheight = maxy - miny + 1;
+    const int targetwidth = TILEWIDTH > 2 ? TILEWIDTH - 2 : TILEWIDTH;
+    const int targetheight = TILEHEIGHT > 2 ? TILEHEIGHT - 2 : TILEHEIGHT;
+    const int xoffset = (TILEWIDTH - targetwidth) / 2;
+    const int yoffset = (TILEHEIGHT - targetheight) / 2;
+
+    for (int y = 0; y < targetheight; y++)
+    {
+	int sy = miny + (y * sourceheight + targetheight / 2) / targetheight;
+	if (sy > maxy) sy = maxy;
+
+	for (int x = 0; x < targetwidth; x++)
+	{
+	    int sx = minx + (x * sourcewidth + targetwidth / 2) / targetwidth;
+	    if (sx > maxx) sx = maxx;
+	    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
+	    int value = (pixel & 31) + ((pixel >> 5) & 31) +
+			((pixel >> 10) & 31);
+	    if (value > threshold)
+		mask[(yoffset + y) * TILEWIDTH + xoffset + x] = 1;
+	}
+    }
+
+    // Match the selected Latin shadow font: black pixels trail one tile
+    // pixel down and right, then the white glyph is drawn over them.
+    for (int y = 0; y < TILEHEIGHT - 1; y++)
+    {
+	for (int x = 0; x < TILEWIDTH - 1; x++)
+	{
+	    int index = y * TILEWIDTH + x;
+	    int shadowindex = (y + 1) * TILEWIDTH + x + 1;
+	    if (mask[index] && !mask[shadowindex])
+		dst[shadowindex] = shadow;
+	}
+    }
 
     for (int y = 0; y < TILEHEIGHT; y++)
     {
-	int sy0 = y * CYRILLIC_HEIGHT / TILEHEIGHT;
-	int sy1 = (y + 1) * CYRILLIC_HEIGHT / TILEHEIGHT;
-
 	for (int x = 0; x < TILEWIDTH; x++)
 	{
-	    int sx0 = x * CYRILLIC_WIDTH / TILEWIDTH;
-	    int sx1 = (x + 1) * CYRILLIC_WIDTH / TILEWIDTH;
-	    u16 strongest = 0;
-	    int strongest_value = 0;
-
-	    for (int sy = sy0; sy < sy1; sy++)
-	    {
-		for (int sx = sx0; sx < sx1; sx++)
-		{
-		    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
-		    int value = (pixel & 31) + ((pixel >> 5) & 31) +
-				((pixel >> 10) & 31);
-		    if (value > strongest_value)
-		    {
-			strongest = pixel;
-			strongest_value = value;
-		    }
-		}
-	    }
-
-	    if (!strongest)
-		dst[y * TILEWIDTH + x] = 0;
-	    else
-		dst[y * TILEWIDTH + x] = (u8)gfx_lookupcolor(
-		    (strongest & 31) << 3,
-		    ((strongest >> 5) & 31) << 3,
-		    ((strongest >> 10) & 31) << 3);
+	    if (mask[y * TILEWIDTH + x])
+		dst[y * TILEWIDTH + x] = white;
 	}
     }
 }
