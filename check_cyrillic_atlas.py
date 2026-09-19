@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from create_cyrillic_font import CELL_HEIGHT, CELL_WIDTH, GLYPHS, read_bmp
+from create_cyrillic_indexed_font import render as render_indexed
 
 
 ROOT = Path(__file__).resolve().parent
@@ -31,5 +32,7 @@ assert "cyrillic_8_Tiles[66 * 8 * 8]" in atlas, \
     "Indexed Cyrillic atlas must contain 66 8x8 glyphs"
 assert "cyrillic_10_Tiles[66 * 10 * 10]" in atlas, \
     "Indexed Cyrillic atlas must contain 66 10x10 glyphs"
+assert (ROOT / "gfx/cyrillic_8.c").read_text(encoding="utf-8") == \
+    render_indexed(ROOT / "gfx/cyrillic.bmp")
 
 print(f"Cyrillic atlas: {width}x{height}, {cells} glyphs, layout and addressing are consistent")

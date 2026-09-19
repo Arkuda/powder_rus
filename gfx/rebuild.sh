@@ -22,6 +22,7 @@ echo Building background images...
 ../support/bmp2c/bmp2c tridude_goodbye_hires.bmp
 ../support/bmp2c/bmp2c icon_sdl.bmp
 python3 ../create_cyrillic_font.py
+python3 ../create_cyrillic_indexed_font.py
 
 echo Dirtying build...
 rm -f all_bitmaps.o

@@ -31,4 +31,6 @@ foreach ($bmpFile in @("tridude_goodbye.bmp", "tridude_goodbye_hires.bmp", "icon
 
 python ../create_cyrillic_font.py
 if ($LASTEXITCODE -ne 0) { throw "Cyrillic atlas conversion failed" }
+python ../create_cyrillic_indexed_font.py
+if ($LASTEXITCODE -ne 0) { throw "Indexed Cyrillic atlas conversion failed" }
 Remove-Item "all_bitmaps.o" -ErrorAction SilentlyContinue
