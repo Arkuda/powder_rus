@@ -30,6 +30,7 @@
 #include "piety.h"
 #include "victory.h"
 #include "ptrlist.h"
+#include "localization.h"
 
 MAP	*glbCurLevel = 0;
 int	 glbMapCount = 0;
@@ -2697,7 +2698,7 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 
     if (x == MOB::getAvatar()->getX() && y == MOB::getAvatar()->getY())
     {
-	here = " here.  ";
+	here = " здесь.  ";
 	// We also want to explicitly map this square.  Mapping may
 	// occur after walking, so this avoids getting a know nothing
 	// if you teleport, etc.
@@ -2705,7 +2706,7 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 	ownsquare = true;
     }
     else
-	here = " there.  ";
+	here = " там.  ";
 
     checksubmerged = false;
     if (ownsquare)
@@ -2734,9 +2735,9 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 	if (blind || 
 		(mob->hasIntrinsic(INTRINSIC_INVISIBLE) && 
 		 !mob->hasIntrinsic(INTRINSIC_SEEINVISIBLE)))
-	    buf.strcat("You feel yourself");
+	    buf.strcat("Вы ощущаете себя");
 	else
-	    buf.strcat("You see yourself");
+	    buf.strcat("Вы видите себя");
 	describe = true;
 	started = true;
     }
@@ -2765,15 +2766,15 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 	    if (!ownsquare && (!hasFOV(x, y) || !isLit(x, y) || blind))
 	    {
 		// We are working from memory.
-		buf.strcat("You recall ");
+		buf.strcat("Вы помните ");
 	    }
 	    else if (blind)
 	    {
-		buf.strcat("You feel ");
+		buf.strcat("Вы ощущаете ");
 	    }
 	    else
 	    {
-		buf.strcat("You see ");
+		buf.strcat("Вы видите ");
 	    }
 	}
 	else
@@ -2784,7 +2785,7 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 
 	if (n > 5)
 	{
-	    buf.strcat("many items");
+	    buf.strcat("много предметов");
 	    break;
 	}
 	buf.strcat(stack(i)->getName());
@@ -2798,7 +2799,7 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
 	if (!describe)
 	{
 	    if (!started)
-		buf.sprintf("You know nothing of this spot.  ");
+		buf.sprintf("Вы ничего не знаете об этом месте.  ");
 	}
 	else
 	{
@@ -2818,11 +2819,11 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
     if (!describe)
     {
 	if (!ownsquare && (!hasFOV(x, y) || !isLit(x, y) || blind))
-	    prefix = "You recall ";
+	    prefix = "Вы помните ";
 	else if (blind)
-	    prefix = "You feel ";
+	    prefix = "Вы ощущаете ";
 	else
-	    prefix = "You see ";
+	    prefix = "Вы видите ";
     }
     else
 	prefix = ", ";
@@ -2832,8 +2833,8 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
     if (smoke != SMOKE_NONE)
     {
 	buf.strcat(prefix);
-	buf.strcat(glb_smokedefs[smoke].name);
-	prefix = " and ";
+	buf.strcat(tr(glb_smokedefs[smoke].name));
+	prefix = " и ";
 	describe = true;
     }
 
@@ -2841,7 +2842,7 @@ MAP::describeSquare(int x, int y, bool blind, bool includeself)
     if (glb_squaredefs[tile].description)
     {
 	buf.strcat(prefix);
-	buf.strcat(glb_squaredefs[tile].description);
+	buf.strcat(tr(glb_squaredefs[tile].description));
 	describe = true;
     }
 

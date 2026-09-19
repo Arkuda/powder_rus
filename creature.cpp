@@ -5443,7 +5443,7 @@ MOB::reportMessage(const char *str) const
     }
 #endif
     
-    msg_report(gram_capitalize(str));
+    msg_report(gram_capitalize(tr(str)));
     // We always trail with some spaces, this will not cause line wrap,
     // but will ensure successive messages are all froody.
     msg_append("  ");
@@ -5483,7 +5483,7 @@ MOB::formatAndReportExplicit(const char *str, const MOB *mob, const ITEM *item, 
     if (!str)
 	return;
     
-    buf = MOB::formatToString(str, this, 0, mob, item, b1, b2, b3);
+    buf = MOB::formatToString(tr(str), this, 0, mob, item, b1, b2, b3);
     reportMessage(buf);
 }
 
