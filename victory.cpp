@@ -29,6 +29,7 @@
 #include "encyc_support.h"
 #include "stylus.h"
 #include "buf.h"
+#include "localization.h"
 
 // Avatar name...
 char glbAvatarName[100];
@@ -76,19 +77,19 @@ victory_formattime(int endtime, int *scale)
     {
 	if (scale)
 	    *scale = 4;
-	buf.sprintf("%d год%s, %d день%s, %d час%s, %d минута%s и %d секунда%s",
-		year, (year == 1) ? "" : "s",
-		day, (day == 1) ? "" : "s",
-		hour, (hour == 1) ? "" : "s",
-		min, (min == 1) ? "" : "s",
-		sec, (sec == 1) ? "" : "s");
+	buf.sprintf("%d %s, %d %s, %d %s, %d %s и %d %s",
+		year, ru_plural(year, "год", "года", "лет"),
+		day, ru_plural(day, "день", "дня", "дней"),
+		hour, ru_plural(hour, "час", "часа", "часов"),
+		min, ru_plural(min, "минута", "минуты", "минут"),
+		sec, ru_plural(sec, "секунда", "секунды", "секунд"));
     }
     else if (day)
     {
 	if (scale)
 	    *scale = 3;
-	buf.sprintf("%d день%s и %dч%dм%дс",
-		day, (day == 1) ? "" : "s",
+	buf.sprintf("%d %s и %dч %dм %dс",
+		day, ru_plural(day, "день", "дня", "дней"),
 		hour,
 		min,
 		sec);
@@ -97,7 +98,7 @@ victory_formattime(int endtime, int *scale)
     {
 	if (scale)
 	    *scale = 2;
-	buf.sprintf("%dч%dм%дс",
+	buf.sprintf("%dч %dм %dс",
 		hour,
 		min,
 		sec);
@@ -106,16 +107,16 @@ victory_formattime(int endtime, int *scale)
     {
 	if (scale)
 	    *scale = 1;
-	buf.sprintf("%d минута%s и %d секунда%s",
-		min, (min == 1) ? "" : "s",
-		sec, (sec == 1) ? "" : "s");
+	buf.sprintf("%d %s и %d %s", min,
+		ru_plural(min, "минута", "минуты", "минут"), sec,
+		ru_plural(sec, "секунда", "секунды", "секунд"));
     }
     else
     {
 	if (scale)
 	    *scale = 0;
-	buf.sprintf("%d секунда%s",
-		sec, (sec == 1) ? "" : "s");
+	buf.sprintf("%d %s", sec,
+		ru_plural(sec, "секунда", "секунды", "секунд"));
     }
     return buf;
 }

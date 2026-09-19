@@ -29,9 +29,11 @@
 #include "map.h"		// Needed for refresh.
 #include "stylus.h"
 #include "victory.h"
+#include "localization.h"
 
 // Width of screen in characters
 #define SCREEN_WIDTH	30
+#define SCREEN_BYTES	(SCREEN_WIDTH * 4)
 // Number of lines per page.
 #define PAGE_SIZE 	3
 
@@ -64,10 +66,10 @@ msg_init()
     int		i, j;
     for (i = 0; i < PAGE_SIZE; i++)
     {
-	glbMsg[i] = new char[SCREEN_WIDTH+1];
+	glbMsg[i] = new char[SCREEN_BYTES+1];
 	for (j = 0; j < NUM_STASHES; j++)
 	{
-	    glbStashedMsg[j][i] = new char[SCREEN_WIDTH+1];
+	    glbStashedMsg[j][i] = new char[SCREEN_BYTES+1];
 	    glbStashedMsg[j][i][0] = '\0';
 	}
 	glbMsg[i][0] = '\0';
@@ -167,12 +169,14 @@ msg_write(const char *str, bool wait=true)
     origdst = dst = glbMsg[glbCurLine];
     // Last line needs extra char for next symbol.
     dstmaxlen = SCREEN_WIDTH - (glbCurLine == (PAGE_SIZE-1));
-    dstlen = strlen(dst);
-    dst += dstlen;
+    dstlen = utf8_columns(dst);
+    dst += strlen(dst);
 
     while (*src && dstlen < dstmaxlen)
     {
-	*dst++ = *src++;
+	int bytes = utf8_prefix(src, 1);
+	for (int i = 0; i < bytes; ++i)
+	    *dst++ = *src++;
 	dstlen++;
     }
     // If we quit because we ran out of source material, great!
@@ -186,7 +190,7 @@ msg_write(const char *str, bool wait=true)
 
     // We have to wrap...  If src is a space, wrapping is trivial.
     // Other wise, we backup src until it is a space...
-    while (!isspace(*src) && src > str)
+    while (!isspace((unsigned char)*src) && src > str)
     {
 	src--;
 	dst--;
@@ -195,7 +199,7 @@ msg_write(const char *str, bool wait=true)
 
     // Now, move forward until we ate all the spaces (this seems odd
     // except if *src was a space going into the last loop)
-    while (*src && isspace(*src))
+    while (*src && isspace((unsigned char)*src))
     {
 	src++;
     }
@@ -209,7 +213,7 @@ msg_write(const char *str, bool wait=true)
 	return;
     }
 
-    char		 prefix[SCREEN_WIDTH+1];
+    char		 prefix[SCREEN_BYTES+1];
     prefix[0] = '\0';
     
     // Special case:  If src == str now, yet our dstlen == 0, we have a
@@ -220,7 +224,9 @@ msg_write(const char *str, bool wait=true)
     {
 	while (*src && dstlen < dstmaxlen-1)
 	{
-	    *dst++ = *src++;
+	    int bytes = utf8_prefix(src, 1);
+	    for (int i = 0; i < bytes; ++i)
+		*dst++ = *src++;
 	    dstlen++;
 	}
 	// Append a hyphen...

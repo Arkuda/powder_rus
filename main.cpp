@@ -1943,13 +1943,13 @@ intro_screen()
 
 	const char *gendermenu[] =
 	{
-	    "Male",
-	    "Female",
+	    "Мужской",
+	    "Женский",
 	    0
 	};
 	int		aorb;
 
-	gfx_printtext(0, 6, "Gender? ");
+	gfx_printtext(0, 6, "Пол? ");
 	glbGender = gfx_selectmenu(5, 7, gendermenu, aorb, glbGender);
 
 	// Secret code: [Start] to pick random gender.
@@ -1970,7 +1970,7 @@ intro_screen()
 	gfx_printtext(0, 3, welcome);
 
 	// Now get their name.
-	gfx_printtext(0, 4, "Name? ");
+	gfx_printtext(0, 4, "Имя? ");
 
 	input_getline(glbAvatarName, 23, 6, 4, 23, 8, glbAvatarName);
 
@@ -3713,24 +3713,24 @@ processOptions()
     
     const char	*menu[] =
     {
-	"Help",
-	"Save&Quit",
+	"Помощь",
+	"Сохранить и выйти",
 #ifdef USE_VIRTUAL_SCREEN
-	"Buttons",
+	"Кнопки",
 #endif
-	"Tiles",
-	"Opacity",
-	"Fonts",
-	"ColorText",
-	"AutoPrompt",
-	"SafeWalk",
-	"ActionBar",
-	"CharDump",
-	"KnownItems",
-	"DebugInfo",
-	"Collapse",
-	"Quit",
-	"Defaults",
+	"Графика",
+	"Прозрачность",
+	"Шрифт",
+	"Цветной текст",
+	"Автоподсказки",
+	"Безопасный ход",
+	"Панель действий",
+	"Отчёт героя",
+	"Известные вещи",
+	"Отладка",
+	"Свернуть",
+	"Выход",
+	"По умолчанию",
 	0,		// Full Screen.
 	0
     };
@@ -3760,17 +3760,17 @@ processOptions()
 
     const char	*menunoavatar[] =
     {
-	"Help",
-	"Tiles",
-	"Opacity",
-	"Fonts",
-	"ColorText",
-	"AutoPrompt",
-	"SafeWalk",
-	"ActionBar",
-	"Defaults",
+	"Помощь",
+	"Графика",
+	"Прозрачность",
+	"Шрифт",
+	"Цветной текст",
+	"Автоподсказки",
+	"Безопасный ход",
+	"Панель действий",
+	"По умолчанию",
 #ifdef iPOWDER
-	"Unlocking",
+	"Разблокировка",
 #endif
 	0,		// Full Screen.
 	0
@@ -3846,7 +3846,7 @@ processOptions()
 
     if (option == OPTION_QUIT)
     {
-	if (gfx_yesnomenu("Really quit?", false))
+	if (gfx_yesnomenu("Точно выйти?", false))
 	{
 	    // Suicide the avatar.
 	    MOB		*avatar;

@@ -12316,47 +12316,47 @@ MAINMENU NONE
 
 MAINMENU NEWGAME
 {
-    name	"New Game"
+    name	"Новая игра"
 }
 
 MAINMENU TUTORIAL
 {
-    name	"Tutorial"
+    name	"Обучение"
 }
 
 MAINMENU VIEWSCORES
 {
-    name	"View Scores"
+    name	"Рекорды"
 }
 
 MAINMENU LOAD
 {
-    name	"Load"
+    name	"Продолжить"
 }
 
 MAINMENU OPTIONS
 {
-    name	"Options"
+    name	"Настройки"
 }
 
 MAINMENU QUIT
 {
-    name	"Quit"
+    name	"Выход"
 }
 
 MAINMENU SAVESCUM
 {
-    name	"Save Scum"
+    name	"Загрузить сохранение"
 }
 
 MAINMENU STRESSTEST
 {
-    name	"Stress Test"
+    name	"Автотест"
 }
 
 MAINMENU UNLOCK
 {
-    name	"Unlock"
+    name	"Разблокировать"
 }
 
 COMMENT
@@ -12594,7 +12594,7 @@ ACTION ZAP
 
 ACTION OPTIONS
 {
-    name		"Options"
+    name		"Настройки"
     hint		"O"
     tile		OPTIONS
 }
