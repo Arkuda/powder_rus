@@ -127,6 +127,12 @@ jobs:
       working-directory: port/android/powder
       run: ./gradlew --version
 
+    - name: Verify generated gfx assets
+      run: |
+        python3 check_cyrillic_atlas.py
+        python3 create_cyrillic_font.py --check
+        git diff --exit-code -- gfx
+
     - name: Build Android
       working-directory: port/android/powder
       run: ./gradlew --no-daemon --stacktrace assembleDebug

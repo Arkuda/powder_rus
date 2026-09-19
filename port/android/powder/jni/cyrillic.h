@@ -3,8 +3,10 @@
 
 #include "mygba.h"
 
-// Константа для недопустимого индекса тайла
-#define INVALID_TILEIDX 0xFFFF
+// gfx/cyrillic.bmp stores 66 vertically stacked 20x20 RGB555 glyphs.
+#define CYRILLIC_WIDTH 20
+#define CYRILLIC_HEIGHT 20
+#define CYRILLIC_GLYPH_COUNT 66
 
 // Функция для проверки, является ли символ кириллическим
 bool is_cyrillic(char c);
@@ -12,4 +14,4 @@ bool is_cyrillic(char c);
 // Функция для получения тайла кириллического символа
 u16 gfx_getcyrillictile(char c);
 
-#endif // CYRILLIC_H 
+#endif // CYRILLIC_H

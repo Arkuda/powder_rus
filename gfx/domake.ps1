@@ -1,66 +1,34 @@
-# Скрипт для генерации C файлов из BMP изображений
+$ErrorActionPreference = "Stop"
+Set-Location $PSScriptRoot
+
 Write-Host "Building Tiles..."
-
-# Список тайлсетов
 $tilesets = @("classic", "distorted", "adambolt", "nethack", "ascii", "akoimeexx", "akoi12", "akoi10", "ibsongrey", "lomaka")
-
-# Обработка каждого тайлсета
 foreach ($tileset in $tilesets) {
-    Write-Host "Building tiles for $tileset..."
+    Write-Host "Building $tileset tiles..."
     Push-Location $tileset
-    # Здесь должна быть команда tile2c, но пока пропустим
+    & "../../support/tile2c/tile2c.exe"
+    if ($LASTEXITCODE -ne 0) { throw "tile2c failed for $tileset" }
     Pop-Location
 }
 
-# Обработка akoi3x
 Write-Host "Building Akoi3x..."
 Push-Location "akoi3x"
-if (Test-Path "sprite16_3x.bmp.gz") {
-    # Распаковка gz файла
-    $content = Get-Content "sprite16_3x.bmp.gz" -Encoding Byte
-    [System.IO.File]::WriteAllBytes("sprite16_3x.bmp", $content)
-}
-# Здесь должна быть команда bmp2c, но пока пропустим
+$input = [IO.File]::OpenRead("sprite16_3x.bmp.gz")
+$output = [IO.File]::Create("sprite16_3x.bmp")
+try {
+    $gzip = [IO.Compression.GZipStream]::new($input, [IO.Compression.CompressionMode]::Decompress)
+    try { $gzip.CopyTo($output) } finally { $gzip.Dispose() }
+} finally { $output.Dispose(); $input.Dispose() }
+& "../../support/bmp2c/bmp2c.exe" "sprite16_3x.bmp"
+if ($LASTEXITCODE -ne 0) { throw "bmp2c failed for Akoi3x" }
 Pop-Location
 
-Write-Host "Building Background images..."
-# Генерация C файлов для BMP изображений
-$bmpFiles = @(
-    "tridude_goodbye.bmp",
-    "tridude_goodbye_hires.bmp",
-    "icon_sdl.bmp"
-)
-
-foreach ($bmpFile in $bmpFiles) {
-    if (Test-Path $bmpFile) {
-        Write-Host "Converting $bmpFile to C..."
-        # Создаем имя выходного файла
-        $cFile = $bmpFile -replace '\.bmp$', '.bmp.c'
-        
-        # Читаем BMP файл как бинарные данные
-        $bmpData = [System.IO.File]::ReadAllBytes($bmpFile)
-        
-        # Создаем массив hex значений
-        $hexArray = $bmpData | ForEach-Object { "0x{0:X2}" -f $_ }
-        
-        # Создаем C файл
-        $cContent = @"
-// Автоматически сгенерированный файл из $bmpFile
-const unsigned char $(($bmpFile -replace '\.bmp$', '_bmp') -replace '-', '_')[] = {
-$($hexArray -join ", ")
-};
-
-const int $(($bmpFile -replace '\.bmp$', '_bmp_size') -replace '-', '_') = sizeof($(($bmpFile -replace '\.bmp$', '_bmp') -replace '-', '_'));
-"@
-        
-        # Записываем C файл
-        [System.IO.File]::WriteAllText($cFile, $cContent)
-    }
+Write-Host "Building background images..."
+foreach ($bmpFile in @("tridude_goodbye.bmp", "tridude_goodbye_hires.bmp", "icon_sdl.bmp")) {
+    & "../support/bmp2c/bmp2c.exe" $bmpFile
+    if ($LASTEXITCODE -ne 0) { throw "bmp2c failed for $bmpFile" }
 }
 
-Write-Host "Dirtying build..."
-if (Test-Path "all_bitmaps.o") {
-    Remove-Item "all_bitmaps.o"
-}
-
-Write-Host "Done!" 
+python ../create_cyrillic_font.py
+if ($LASTEXITCODE -ne 0) { throw "Cyrillic atlas conversion failed" }
+Remove-Item "all_bitmaps.o" -ErrorAction SilentlyContinue

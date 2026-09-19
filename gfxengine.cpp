@@ -382,7 +382,8 @@ gfx_lockCharTile(GFX_CODEPOINT c, u8 *result)
         if (idx != INVALID_TILEIDX) {
             // Используем кириллический шрифт
             ham_ReloadTileGfx(glb_bg1tiles,
-                (u16*)(&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]),
+                (u16*)(((const u16 *)glb_tilesets[glb_tileset].cyrillic) +
+                       idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT),
                 idx,
                 1);
             glb_idxcount[idx]++;
@@ -4539,15 +4540,25 @@ bool hamfake_externaldir(int &dx, int &dy) { return false; }
 void hamfake_buttonreq(int mode, int type) { }
 #endif
 
-bool is_cyrillic(GFX_CODEPOINT c)
-{
-    return gfx_getcyrillictile(c) != INVALID_TILEIDX;
+// CP1251 bytes in the same order as the Unicode map documented by
+// create_cyrillic_font.py and the vertical cells in gfx/cyrillic.bmp.
+static const unsigned char cyrillic_cp1251[CYRILLIC_GLYPH_COUNT] = {
+    0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xb8, 0xe6, 0xe7, 0xe8, 0xe9,
+    0xea, 0xeb, 0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4,
+    0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff,
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xa8, 0xc6, 0xc7, 0xc8, 0xc9,
+    0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
+    0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf,
+};
+
+u16 gfx_getcyrillictile(char c) {
+    const unsigned char value = (unsigned char)c;
+    for (u16 idx = 0; idx < CYRILLIC_GLYPH_COUNT; ++idx)
+        if (cyrillic_cp1251[idx] == value)
+            return idx;
+    return INVALID_TILEIDX;
 }
 
-u16 gfx_getcyrillictile(GFX_CODEPOINT c)
-{
-    for (u16 i = 0; i < sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0]); ++i)
-        if (glb_cyrillic_codepoints[i] == c)
-            return i;
-    return INVALID_TILEIDX;
+bool is_cyrillic(char c) {
+    return gfx_getcyrillictile(c) != INVALID_TILEIDX;
 }

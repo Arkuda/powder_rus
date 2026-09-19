@@ -440,8 +440,4 @@ void gfx_spritemode(bool usesprites);
 #define TILEWIDTH (glb_tilesets[glb_tileset].tilewidth)
 #define TILEHEIGHT (glb_tilesets[glb_tileset].tilewidth)
 
-// Размеры для кириллических символов
-#define CYRILLIC_WIDTH 20
-#define CYRILLIC_HEIGHT 20
-
 #endif

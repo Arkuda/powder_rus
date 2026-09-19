@@ -17,6 +17,7 @@
 #include "gfx/all_bitmaps.h"
 #include "mygba.h"
 #include "gfxengine.h"
+#include "cyrillic.h"
 
 #ifdef USING_DS
 #include <nds.h>
