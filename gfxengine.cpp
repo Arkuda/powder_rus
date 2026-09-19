@@ -4561,27 +4561,6 @@ void hamfake_buttonreq(int mode, int type) { }
 static void
 gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
 {
-    char latin = 0;
-    switch (glb_cyrillic_codepoints[sourceidx])
-    {
-	case 0x041d: latin = 'H'; break; // Н
-	case 0x043d: latin = 'h'; break; // н
-	case 0x0415: latin = 'E'; break; // Е
-	case 0x0435: latin = 'e'; break; // е
-	case 0x0420: latin = 'P'; break; // Р
-	case 0x0440: latin = 'p'; break; // р
-    }
-
-    // These Cyrillic forms are identical to the selected Latin font glyphs.
-    // Reusing them avoids losing their counters and stems during reduction.
-    if (latin && TILEWIDTH == 8 && TILEHEIGHT == 8)
-    {
-	memcpy(dst,
-	       &glb_tilesets[glb_tileset].alphabet[glb_currentfont]
-		   [gfx_getchartile(latin) * BYTEPERTILE],
-	       BYTEPERTILE);
-	return;
-    }
 
     const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic;
     source += sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT;
@@ -4628,17 +4607,29 @@ gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
 
     for (int y = 0; y < targetheight; y++)
     {
-	int sy = miny + (y * sourceheight + targetheight / 2) / targetheight;
-	if (sy > maxy) sy = maxy;
+	int sy0 = miny + y * sourceheight / targetheight;
+	int sy1 = miny + (y + 1) * sourceheight / targetheight;
 
 	for (int x = 0; x < targetwidth; x++)
 	{
-	    int sx = minx + (x * sourcewidth + targetwidth / 2) / targetwidth;
-	    if (sx > maxx) sx = maxx;
-	    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
-	    int value = (pixel & 31) + ((pixel >> 5) & 31) +
-			((pixel >> 10) & 31);
-	    if (value > threshold)
+	    int sx0 = minx + x * sourcewidth / targetwidth;
+	    int sx1 = minx + (x + 1) * sourcewidth / targetwidth;
+	    int covered = 0;
+	    int total = 0;
+
+	    for (int sy = sy0; sy < sy1; sy++)
+	    {
+		for (int sx = sx0; sx < sx1; sx++)
+		{
+		    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
+		    int value = (pixel & 31) + ((pixel >> 5) & 31) +
+				((pixel >> 10) & 31);
+		    covered += value > threshold;
+		    total++;
+		}
+	    }
+
+	    if (covered * 4 >= total)
 		mask[(yoffset + y) * TILEWIDTH + xoffset + x] = 1;
 	}
     }
