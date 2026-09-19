@@ -24,6 +24,7 @@
 #include <ctype.h>
 
 #include "gfx/all_bitmaps.h"
+#include "gfx/cyrillic_8.c"
 
 #include "map.h"
 #include "creature.h"
@@ -4561,99 +4562,40 @@ void hamfake_buttonreq(int mode, int type) { }
 static void
 gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
 {
-
-    const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic;
-    source += sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT;
-    const u8 white = (u8)gfx_lookupcolor(255, 255, 255);
-    const u8 shadow = 0x20;
-    const int threshold = 12;
-    int minx = CYRILLIC_WIDTH;
-    int miny = CYRILLIC_HEIGHT;
-    int maxx = -1;
-    int maxy = -1;
+    const int tilewidth = TILEWIDTH;
+    const int tilepixels = tilewidth * tilewidth;
+    u8 mask[10 * 10];
 
     memset(dst, 0, BYTEPERTILE);
-    u8 mask[BYTEPERTILE];
-    memset(mask, 0, BYTEPERTILE);
+    memset(mask, 0, sizeof(mask));
 
-    // Find the actual ink bounds.  The source atlas has generous side
-    // bearings, which become excessive when a 20px glyph is reduced to 8px.
-    for (int y = 0; y < CYRILLIC_HEIGHT; y++)
-    {
-	for (int x = 0; x < CYRILLIC_WIDTH; x++)
-	{
-	    u16 pixel = source[y * CYRILLIC_WIDTH + x];
-	    int value = (pixel & 31) + ((pixel >> 5) & 31) +
-			((pixel >> 10) & 31);
-	    if (value > threshold)
-	    {
-		if (x < minx) minx = x;
-		if (x > maxx) maxx = x;
-		if (y < miny) miny = y;
-		if (y > maxy) maxy = y;
-	    }
-	}
-    }
-
-    if (maxx < minx || maxy < miny)
+    if (tilewidth == 8)
+	memcpy(mask, cyrillic_8_Tiles + sourceidx * 8 * 8, 8 * 8);
+    else if (tilewidth == 10)
+	memcpy(mask, cyrillic_10_Tiles + sourceidx * 10 * 10, 10 * 10);
+    else
 	return;
-
-    const int sourcewidth = maxx - minx + 1;
-    const int sourceheight = maxy - miny + 1;
-    const int targetwidth = TILEWIDTH > 2 ? TILEWIDTH - 2 : TILEWIDTH;
-    const int targetheight = TILEHEIGHT > 2 ? TILEHEIGHT - 2 : TILEHEIGHT;
-    const int xoffset = (TILEWIDTH - targetwidth) / 2;
-    const int yoffset = (TILEHEIGHT - targetheight) / 2;
-
-    for (int y = 0; y < targetheight; y++)
-    {
-	int sy0 = miny + y * sourceheight / targetheight;
-	int sy1 = miny + (y + 1) * sourceheight / targetheight;
-
-	for (int x = 0; x < targetwidth; x++)
-	{
-	    int sx0 = minx + x * sourcewidth / targetwidth;
-	    int sx1 = minx + (x + 1) * sourcewidth / targetwidth;
-	    int covered = 0;
-	    int total = 0;
-
-	    for (int sy = sy0; sy < sy1; sy++)
-	    {
-		for (int sx = sx0; sx < sx1; sx++)
-		{
-		    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
-		    int value = (pixel & 31) + ((pixel >> 5) & 31) +
-				((pixel >> 10) & 31);
-		    covered += value > threshold;
-		    total++;
-		}
-	    }
-
-	    if (covered * 4 >= total)
-		mask[(yoffset + y) * TILEWIDTH + xoffset + x] = 1;
-	}
-    }
 
     // Match the selected Latin shadow font: black pixels trail one tile
     // pixel down and right, then the white glyph is drawn over them.
-    for (int y = 0; y < TILEHEIGHT - 1; y++)
+    if (glb_currentfont == 2)
     {
-	for (int x = 0; x < TILEWIDTH - 1; x++)
+	for (int y = 0; y < tilewidth - 1; y++)
 	{
-	    int index = y * TILEWIDTH + x;
-	    int shadowindex = (y + 1) * TILEWIDTH + x + 1;
-	    if (mask[index] && !mask[shadowindex])
-		dst[shadowindex] = shadow;
+	    for (int x = 0; x < tilewidth - 1; x++)
+	    {
+		int index = y * tilewidth + x;
+		int shadowindex = (y + 1) * tilewidth + x + 1;
+		if (mask[index] && !mask[shadowindex])
+		    dst[shadowindex] = 0x20;
+	    }
 	}
     }
 
-    for (int y = 0; y < TILEHEIGHT; y++)
+    for (int i = 0; i < tilepixels; i++)
     {
-	for (int x = 0; x < TILEWIDTH; x++)
-	{
-	    if (mask[y * TILEWIDTH + x])
-		dst[y * TILEWIDTH + x] = white;
-	}
+	if (mask[i])
+	    dst[i] = mask[i];
     }
 }
 
