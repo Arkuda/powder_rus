@@ -182,15 +182,19 @@ const char *glb_texttable[] = {
     "\"<>?[]{}`~",
     ",.<>;:" SYMBOLSTRING_AC SYMBOLSTRING_TRIDUDE SYMBOLSTRING_CURSOR " ",
     SYMBOLSTRING_UNIQUE "         ",
-    // Добавляем кириллицу
-    "абвгдеёжзи",
-    "йклмнопрст",
-    "уфхцчшщъыь",
-    "эюяАБВГДЕЁ",
-    "ЖЗИЙКЛМНОП",
-    "РСТУФХЦЧШЩ",
-    "ЪЫЬЭЮЯ",
     0
+};
+
+// Cyrillic glyphs are ordered explicitly as they occur in the atlas.
+static const GFX_CODEPOINT glb_cyrillic_codepoints[] = {
+    0x430,0x431,0x432,0x433,0x434,0x435,0x451,0x436,0x437,0x438,
+    0x439,0x43a,0x43b,0x43c,0x43d,0x43e,0x43f,0x440,0x441,0x442,
+    0x443,0x444,0x445,0x446,0x447,0x448,0x449,0x44a,0x44b,0x44c,
+    0x44d,0x44e,0x44f,
+    0x410,0x411,0x412,0x413,0x414,0x415,0x401,0x416,0x417,0x418,
+    0x419,0x41a,0x41b,0x41c,0x41d,0x41e,0x41f,0x420,0x421,0x422,
+    0x423,0x424,0x425,0x426,0x427,0x428,0x429,0x42a,0x42b,0x42c,
+    0x42d,0x42e,0x42f
 };
 
 u8
@@ -280,7 +284,7 @@ gfx_getchartile(char c)
 }
 
 u16
-gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result)
+gfx_lockColourCharTile(GFX_CODEPOINT c, COLOUR_NAMES colour, u8 *result)
 {
     u8		virtualtile, charnum;
     int		idx, sourceidx;
@@ -312,7 +316,7 @@ gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result)
     }
 
     // Now find what origin tile we want to map from.
-    sourceidx = gfx_getchartile(c);
+    sourceidx = is_cyrillic(c) ? gfx_getcyrillictile(c) : gfx_getchartile((char)c);
 
     charnum = virtualtile - COLOURED_SYMBOLS;
     // Check to see if our tiledata is available.
@@ -325,7 +329,10 @@ gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result)
     int		 i;
 
     dst = glb_colourchardata[charnum];
-    src = (const u8*)&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx*BYTEPERTILE];
+    if (is_cyrillic(c))
+	src = (const u8 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT];
+    else
+	src = (const u8 *)&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx*BYTEPERTILE];
 
     for (i = 0; i < BYTEPERTILE; i++)
     {
@@ -354,25 +361,43 @@ gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result)
 }
 
 u16
-gfx_lockCharTile(u8 c, u8 *result)
+gfx_lockCharTile(GFX_CODEPOINT c, u8 *result)
 {
     int idx;
     int sourceidx;
     
-    *result = c;
+    *result = (u8)c;
 
     // Проверяем, является ли символ кириллическим
     if (is_cyrillic(c)) {
-        idx = gfx_getcyrillictile(c);
+        sourceidx = gfx_getcyrillictile(c);
+        u8 virtualtile = 166 + sourceidx;
+        *result = virtualtile;
+        idx = glb_charidx[virtualtile];
+        if (idx != INVALID_TILEIDX) {
+            glb_idxcount[idx]++;
+            return idx;
+        }
+        idx = gfx_findFreeTile(1);
         if (idx != INVALID_TILEIDX) {
             // Используем кириллический шрифт
             ham_ReloadTileGfx(glb_bg1tiles,
-                (u16*)(&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]),
+                (u16*)(&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]),
                 idx,
                 1);
+            glb_idxcount[idx]++;
+            glb_charidx[virtualtile] = idx;
             return idx;
         }
+        *result = 0xff;
+        return gfx_lookupTile(TILE_NOTILE);
     }
+
+    if (c > 0xff)
+	{
+	    c = '?';
+	    *result = '?';
+	}
 
     // Для не-кириллических символов используем стандартный шрифт
     idx = glb_charidx[c];
@@ -608,6 +633,17 @@ gfx_buildstdcolors()
 void
 gfx_init()
 {
+    // Executable UTF-8 examples guard both decoding and screen-width rules.
+    UT_ASSERT(gfx_textwidth("Привет") == 6);
+    UT_ASSERT(gfx_textwidth("Ёж") == 2);
+    UT_ASSERT(gfx_textwidth("POWDER — игра") == 13);
+    const char *utf8sample =
+	"ПриветПриветПриветПриветПриветЁж";
+    const char *utf8cut = utf8sample;
+    for (int i = 0; i < 30; ++i)
+	gfx_utf8next(&utf8cut);
+    UT_ASSERT(gfx_textwidth(utf8sample) == 32 && gfx_textwidth(utf8cut) == 2);
+
     // Initialize everything...
     ham_Init();
 
@@ -1191,12 +1227,88 @@ gfx_printtext(int x, int y, const char *text)
     // We silently clip at 30.
     while (x < 30 && *text)
     {
-	gfx_printchar(x++, y, *text++);
+	gfx_printchar(x++, y, gfx_utf8next(&text));
     }
 }
 
+GFX_CODEPOINT
+gfx_utf8next(const char **text)
+{
+    const u8 *s = (const u8 *) *text;
+    GFX_CODEPOINT cp;
+    int continuation;
+
+    if (!*s)
+	return 0;
+    if (*s < 0x80 || *s < 0xc2)
+    {
+	(*text)++;
+	return *s; // ASCII and POWDER's binary one-byte symbols stay intact.
+    }
+    if (*s < 0xe0) { cp = *s & 0x1f; continuation = 1; }
+    else if (*s < 0xf0) { cp = *s & 0x0f; continuation = 2; }
+    else if (*s < 0xf5) { cp = *s & 0x07; continuation = 3; }
+    else { (*text)++; return '?'; }
+
+    for (int i = 1; i <= continuation; ++i)
+    {
+	if ((s[i] & 0xc0) != 0x80)
+	{
+	    (*text)++;
+	    return '?';
+	}
+	cp = (cp << 6) | (s[i] & 0x3f);
+    }
+    // Reject overlong sequences, surrogates, and values outside Unicode.
+    if ((continuation == 1 && cp < 0x80) ||
+	(continuation == 2 && cp < 0x800) ||
+	(continuation == 3 && cp < 0x10000) ||
+	(cp >= 0xd800 && cp <= 0xdfff) || cp > 0x10ffff)
+    {
+	(*text)++;
+	return '?';
+    }
+    *text += continuation + 1;
+    return cp;
+}
+
+int
+gfx_textwidth(const char *text)
+{
+    int width = 0;
+    while (*text)
+    {
+	gfx_utf8next(&text);
+	++width;
+    }
+    return width;
+}
+
+static const char *
+gfx_utf8retreat(const char *start, const char *current, int count)
+{
+    const char *scan = start;
+    int offset = 0;
+    while (scan < current)
+    {
+	gfx_utf8next(&scan);
+	++offset;
+    }
+    scan = start;
+    for (int i = 0; i < offset - count; ++i)
+	gfx_utf8next(&scan);
+    return scan;
+}
+
+static void
+gfx_utf8advance(const char **text, int count)
+{
+    while (count-- && **text)
+	gfx_utf8next(text);
+}
+
 void
-gfx_printcharraw(int x, int y, char c)
+gfx_printcharraw(int x, int y, GFX_CODEPOINT c)
 {
     int		 idx, offx, offy;
     u16 	*screen = hamfake_lockScreen();
@@ -1204,11 +1316,18 @@ gfx_printcharraw(int x, int y, char c)
     u16		*palette;
     u16		*backplate;
 
-    idx = gfx_getchartile(c);
+    u8 stored = is_cyrillic(c) ? (u8)(166 + gfx_getcyrillictile(c)) : (u8)c;
+    if (c >= 166 && c < 166 + sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0]))
+	c = glb_cyrillic_codepoints[c - 166];
+    u16 cyridx = gfx_getcyrillictile(c);
+    idx = cyridx == INVALID_TILEIDX ? gfx_getchartile((char)c) : cyridx;
 
-    glb_charmap[(y/TILEHEIGHT)*32 + (x/TILEWIDTH)] = c;
+    glb_charmap[(y/TILEHEIGHT)*32 + (x/TILEWIDTH)] = stored;
 
-    chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
+    if (cyridx != INVALID_TILEIDX)
+	chardata = (u8 *) (&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]);
+    else
+	chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
     palette = (u16 *) glb_tilesets[glb_tileset].palette;
     backplate = (u16 *) bmp_slug_and_blood;
 
@@ -1250,7 +1369,7 @@ gfx_printcharraw(int x, int y, char c)
 }
 
 void
-gfx_printcolourcharraw(int x, int y, char c, COLOUR_NAMES colour)
+gfx_printcolourcharraw(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour)
 {
     int		 idx, offx, offy;
     u16 	*screen = hamfake_lockScreen();
@@ -1263,10 +1382,15 @@ gfx_printcolourcharraw(int x, int y, char c, COLOUR_NAMES colour)
     desiredcolour |= (glb_colourdefs[colour].green >> 3) << 5;
     desiredcolour |= (glb_colourdefs[colour].red >> 3);
 
-    idx = gfx_getchartile(c);
-    glb_charmap[(y/TILEHEIGHT)*32 + (x/TILEWIDTH)] = c;
+    u16 cyridx = gfx_getcyrillictile(c);
+    idx = cyridx == INVALID_TILEIDX ? gfx_getchartile((char)c) : cyridx;
+    glb_charmap[(y/TILEHEIGHT)*32 + (x/TILEWIDTH)] =
+	is_cyrillic(c) ? (u8)(166 + gfx_getcyrillictile(c)) : (u8)c;
 
-    chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
+    if (cyridx != INVALID_TILEIDX)
+	chardata = (u8 *) (&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]);
+    else
+	chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
     palette = (u16 *) glb_tilesets[glb_tileset].palette;
     backplate = (u16 *) bmp_slug_and_blood;
 
@@ -1313,9 +1437,10 @@ gfx_printcolourcharraw(int x, int y, char c, COLOUR_NAMES colour)
 }
 
 void
-gfx_printchar(int x, int y, char c)
+gfx_printchar(int x, int y, GFX_CODEPOINT c)
 {
     int		idx;
+    u8          stored;
 
     if (glb_gfxmode == 3)
     {
@@ -1324,7 +1449,8 @@ gfx_printchar(int x, int y, char c)
     }
 
     // If there is no change, don't do anything...
-    if (glb_charmap[y * 32 + x] == c)
+    stored = is_cyrillic(c) ? (u8)(166 + gfx_getcyrillictile(c)) : (u8)c;
+    if (glb_charmap[y * 32 + x] == stored)
 	return;
 
     // Locking error:
@@ -1337,16 +1463,17 @@ gfx_printchar(int x, int y, char c)
     // Unlock the old tile...
     gfx_unlockCharTile(glb_charmap[y*32 + x]);
 
-    idx = gfx_lockCharTile(c, (u8 *) &c);
-    glb_charmap[y*32 + x] = c;
+    idx = gfx_lockCharTile(c, &stored);
+    glb_charmap[y*32 + x] = stored;
 
     ham_SetMapTile(0, x, y, idx);
 }
 
 void
-gfx_printcolourchar(int x, int y, char c, COLOUR_NAMES colour)
+gfx_printcolourchar(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour)
 {
     int		idx;
+    u8          stored;
 
     if (glb_gfxmode == 3)
     {
@@ -1366,8 +1493,8 @@ gfx_printcolourchar(int x, int y, char c, COLOUR_NAMES colour)
     // Unlock the old tile...
     gfx_unlockCharTile(glb_charmap[y*32 + x]);
 
-    idx = gfx_lockColourCharTile(c, colour, (u8 *) &c);
-    glb_charmap[y*32 + x] = c;
+    idx = gfx_lockColourCharTile(c, colour, &stored);
+    glb_charmap[y*32 + x] = stored;
 
     ham_SetMapTile(0, x, y, idx);
 }
@@ -2237,7 +2364,7 @@ gfx_displaylist(int x, int y, int ylen, const char **list, int select, int &star
 		if (i == select)
 		{
 		    gfx_printtext(x-1, j, SYMBOLSTRING_RIGHT);
-		    gfx_printtext(x+strlen(entry), j, SYMBOLSTRING_LEFT);
+		    gfx_printtext(x+gfx_textwidth(entry), j, SYMBOLSTRING_LEFT);
 		}
 	    }
 	    i++;
@@ -2590,7 +2717,7 @@ gfx_yesnomenu(const char *prompt, bool defchoice)
 	0
     };
 
-    width = strlen(prompt);
+    width = gfx_textwidth(prompt);
 
     // Build an overlay for our question...
     {
@@ -2665,8 +2792,7 @@ gfx_displayinfoblock(const char *text, bool prevline)
 	    }
 	    else
 	    {
-		gfx_printchar(x, y, *text);
-		text++;
+		gfx_printchar(x, y, gfx_utf8next(&text));
 	    }
 	}
     }
@@ -2785,7 +2911,7 @@ gfx_displayinfotext(const char *text)
 		// User wants to scroll up.
 		if (curtext != text)
 		{
-		    curtext -= 30;
+		    curtext = gfx_utf8retreat(text, curtext, 30);
 		}
 		else
 		    dy = 0;
@@ -2794,9 +2920,9 @@ gfx_displayinfotext(const char *text)
 	    {
 		dy--;
 		// User wants scroll down.
-		if (strlen(curtext) >= 30 * (18 - 4))
+		if (gfx_textwidth(curtext) >= 30 * (18 - 4))
 		{
-		    curtext += 30;
+		    gfx_utf8advance(&curtext, 30);
 		}
 		else
 		    dy = 0;
@@ -2844,12 +2970,15 @@ gfx_pager_addtext(const char *text)
     src = text;
     origdst = dst = glb_pager[glb_pager_curline];
     dstmaxlen = glb_pager_width;
-    dstlen = strlen(dst);
-    dst += dstlen;
+    dstlen = gfx_textwidth(dst);
+    dst += strlen(dst);
 
     while (*src && dstlen < dstmaxlen)
     {
-	*dst++ = *src++;
+	const char *next = src;
+	gfx_utf8next(&next);
+	while (src < next)
+	    *dst++ = *src++;
 	dstlen++;
     }
 
@@ -2864,8 +2993,9 @@ gfx_pager_addtext(const char *text)
     // Otherwise, we backup src until it is a space...
     while (!isspace(*src) && src > text)
     {
-	src--;
-	dst--;
+	const char *oldsrc = src;
+	src = gfx_utf8retreat(text, src, 1);
+	dst -= oldsrc - src;
 	dstlen--;
     }
 
@@ -2885,7 +3015,7 @@ gfx_pager_addtext(const char *text)
     }
     
     // Avoid throwing this on the stack as we recurse and GBA sucks.
-    char		 *prefix = new char[30+1];
+    char		 *prefix = new char[glb_pager_width * 4 + 1];
     prefix[0] = '\0';
 
     // Special case:  If src == str now, yet our dstlen == 0, we have a
@@ -2896,7 +3026,10 @@ gfx_pager_addtext(const char *text)
     {
 	while (*src && dstlen < dstmaxlen-1)
 	{
-	    *dst++ = *src++;
+	    const char *next = src;
+	    gfx_utf8next(&next);
+	    while (src < next)
+		*dst++ = *src++;
 	    dstlen++;
 	}
 	// Append a hyphen...
@@ -2919,13 +3052,13 @@ gfx_pager_addtext(const char *text)
     {
 	char		rhs, lhs;
 	rhs = src[0];
-	lhs = origdst[dstlen-1];
+	lhs = dst[-1];
 	// Check if LHS is breaking, in which case we always break
 	// so ignore this code path.
 	if (!isspace(lhs) && lhs != '.' && lhs != ',' && lhs != '!' && lhs != '?')
 	{
 	    // Find the start of the word in dst...
-	    int		wordstart = dstlen - 1;
+	    int		wordstart = (dst - origdst) - 1;
 	    while (!isspace(origdst[wordstart]) && wordstart > 0)
 	    {
 		wordstart--;
@@ -2975,20 +3108,23 @@ gfx_pager_addsingleline(const char *text)
     src = text;
     dst = glb_pager[glb_pager_curline];
     dstmaxlen = glb_pager_width;
-    dstlen = strlen(dst);
+    dstlen = gfx_textwidth(dst);
 
     if (dstlen > 0)
 	gfx_pager_newline();
 
     dst = glb_pager[glb_pager_curline];
     dstmaxlen = glb_pager_width;
-    dstlen = strlen(dst);
+    dstlen = gfx_textwidth(dst);
     
-    dst += dstlen;
+    dst += strlen(dst);
 
     while (*src && dstlen < dstmaxlen)
     {
-	*dst++ = *src++;
+	const char *next = src;
+	gfx_utf8next(&next);
+	while (src < next)
+	    *dst++ = *src++;
 	dstlen++;
     }
 
@@ -3022,7 +3158,7 @@ gfx_pager_newline()
     }
 
     // And ensure the new buffer is allocated.
-    glb_pager[glb_pager_curline] = new char[glb_pager_width+2];
+    glb_pager[glb_pager_curline] = new char[glb_pager_width*4+2];
     glb_pager[glb_pager_curline][0] = '\0';
 }
 
@@ -3064,8 +3200,7 @@ gfx_pager_display_block(int y)
 		}
 		else
 		{
-		    gfx_printchar(sx, sy, *text);
-		    text++;
+		    gfx_printchar(sx, sy, gfx_utf8next(&text));
 		}
 	    }
 	}
@@ -3909,12 +4044,18 @@ gfx_switchfonts(int newfont)
 	idx = glb_charidx[c];
 	if (idx != INVALID_TILEIDX)
 	{
-	    sourceidx = gfx_getchartile(c);
-
-	    ham_ReloadTileGfx(glb_bg1tiles,
-		(u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]),
-		idx,
-		1);
+	    if (c >= 166 && c < 166 + (int)(sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0])))
+	    {
+		sourceidx = c - 166;
+		ham_ReloadTileGfx(glb_bg1tiles,
+		    (u16 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT], idx, 1);
+	    }
+	    else
+	    {
+		sourceidx = gfx_getchartile(c);
+		ham_ReloadTileGfx(glb_bg1tiles,
+		    (u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]), idx, 1);
+	    }
 	}
     }
 }
@@ -3996,12 +4137,18 @@ gfx_switchtilesets(int newtileset)
 	idx = glb_charidx[c];
 	if (idx != INVALID_TILEIDX)
 	{
-	    sourceidx = gfx_getchartile(c);
-
-	    ham_ReloadTileGfx(glb_bg1tiles,
-		(u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]),
-		idx,
-		1);
+	    if (c >= 166 && c < 166 + (int)(sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0])))
+	    {
+		sourceidx = c - 166;
+		ham_ReloadTileGfx(glb_bg1tiles,
+		    (u16 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT], idx, 1);
+	    }
+	    else
+	    {
+		sourceidx = gfx_getchartile(c);
+		ham_ReloadTileGfx(glb_bg1tiles,
+		    (u16*)(&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx * BYTEPERTILE]), idx, 1);
+	    }
 	}
     }
 
@@ -4392,19 +4539,15 @@ bool hamfake_externaldir(int &dx, int &dy) { return false; }
 void hamfake_buttonreq(int mode, int type) { }
 #endif
 
-// Функция для проверки, является ли символ кириллическим
-bool is_cyrillic(char c) {
-    unsigned char uc = (unsigned char)c;
-    return (uc >= 0xD0 && uc <= 0xDF) || (uc >= 0xE0 && uc <= 0xEF);
+bool is_cyrillic(GFX_CODEPOINT c)
+{
+    return gfx_getcyrillictile(c) != INVALID_TILEIDX;
 }
 
-// Функция для получения тайла кириллического символа
-u16 gfx_getcyrillictile(char c) {
-    if (!is_cyrillic(c)) return INVALID_TILEIDX;
-    
-    // Преобразуем символ в индекс в кириллическом шрифте
-    unsigned char uc = (unsigned char)c;
-    int idx = uc - 0xD0;  // Начинаем с 0xD0 для кириллицы
-    return idx;
+u16 gfx_getcyrillictile(GFX_CODEPOINT c)
+{
+    for (u16 i = 0; i < sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0]); ++i)
+        if (glb_cyrillic_codepoints[i] == c)
+            return i;
+    return INVALID_TILEIDX;
 }
-

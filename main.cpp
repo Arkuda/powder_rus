@@ -1637,7 +1637,7 @@ intro_screen()
 	
 	gfx_printtext(10, 1, "POWDER 118"); 
 
-	gfx_printtext(30 - strlen(get_glb_author()), 19,
+	gfx_printtext(30 - gfx_textwidth(get_glb_author()), 19,
 		    get_glb_author());
 
 #ifdef iPOWDER
@@ -6779,5 +6779,4 @@ main(void)
 
     return 0;
 }
-
 

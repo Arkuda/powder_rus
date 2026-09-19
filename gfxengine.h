@@ -20,6 +20,7 @@
 
 #include "glbdef.h"
 #include "buf.h"
+#include "cyrillic.h"
 
 // These are special symbols in our character set.  The SYMBOLSTRING
 // version is "".
@@ -203,8 +204,8 @@ void gfx_forceLockTile(TILE_NAMES tile, int mincount = 1);
 // as the other tiles.
 // The actual tile allocated is passed back in result - that is the
 // value that should be used in the free!
-u16 gfx_lockCharTile(u8 c, u8 *result);
-u16 gfx_lockColourCharTile(u8 c, COLOUR_NAMES colour, u8 *result);
+u16 gfx_lockCharTile(GFX_CODEPOINT c, u8 *result);
+u16 gfx_lockColourCharTile(GFX_CODEPOINT c, COLOUR_NAMES colour, u8 *result);
 void gfx_unlockCharTile(u8 c);
 
 // Looking up a tile will find the tile idx for the given name.
@@ -240,20 +241,22 @@ void gfx_cleartextline(int y, int startx=0);
 // This prints the text on the screen relative coords x/y, which
 // are in text coords, screen is 30x20.
 void gfx_printtext(int x, int y, const char *text);
+GFX_CODEPOINT gfx_utf8next(const char **text);
+int gfx_textwidth(const char *text);
 inline void gfx_printtext(int x, int y, BUF buf)
 { gfx_printtext(x, y, buf.buffer()); }
 
 // This writes a character into a mode 3 buffer.
 // x & y are pixel level offsets.
-void gfx_printcharraw(int x, int y, char c);
-void gfx_printcolourcharraw(int x, int y, char c);
+void gfx_printcharraw(int x, int y, GFX_CODEPOINT c);
+void gfx_printcolourcharraw(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour);
 
 // This also works in screen coords, writing a single character.
-void gfx_printchar(int x, int y, char c);
+void gfx_printchar(int x, int y, GFX_CODEPOINT c);
 
 // Remaps the character to a coloured character.
 // Each coloured character has its own unique tile!
-void gfx_printcolourchar(int x, int y, char c, COLOUR_NAMES colour);
+void gfx_printcolourchar(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour);
 
 // Returns the current center of the viewport in tiles
 void gfx_getscrollcenter(int &cx, int &cy);

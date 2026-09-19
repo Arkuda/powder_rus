@@ -3,13 +3,9 @@
 
 #include "mygba.h"
 
-// Константа для недопустимого индекса тайла
-#define INVALID_TILEIDX 0xFFFF
+typedef u32 GFX_CODEPOINT;
 
-// Функция для проверки, является ли символ кириллическим
-bool is_cyrillic(char c);
+bool is_cyrillic(GFX_CODEPOINT c);
+u16 gfx_getcyrillictile(GFX_CODEPOINT c);
 
-// Функция для получения тайла кириллического символа
-u16 gfx_getcyrillictile(char c);
-
-#endif // CYRILLIC_H 
+#endif // CYRILLIC_H
