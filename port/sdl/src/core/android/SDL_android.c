@@ -524,10 +524,18 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
         return JNI_VERSION_1_4;
     }
 
+#ifdef POWDER_CUSTOM_ANDROID_ACTIVITY
+    /*
+     * PowderActivity owns the UI and framebuffer through its own JNI API.
+     * It deliberately does not ship SDLActivity.java or the other SDL
+     * manager classes, so there is no SDL Java class to register here.
+     */
+#else
     register_methods(env, "org/libsdl/app/SDLActivity", SDLActivity_tab, SDL_arraysize(SDLActivity_tab));
     register_methods(env, "org/libsdl/app/SDLInputConnection", SDLInputConnection_tab, SDL_arraysize(SDLInputConnection_tab));
     register_methods(env, "org/libsdl/app/SDLAudioManager", SDLAudioManager_tab, SDL_arraysize(SDLAudioManager_tab));
     register_methods(env, "org/libsdl/app/SDLControllerManager", SDLControllerManager_tab, SDL_arraysize(SDLControllerManager_tab));
+#endif
 
     return JNI_VERSION_1_4;
 }
