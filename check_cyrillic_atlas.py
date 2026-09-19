@@ -20,8 +20,8 @@ assert f"CYRILLIC_WIDTH {CELL_WIDTH}" in header
 assert f"CYRILLIC_HEIGHT {CELL_HEIGHT}" in header
 
 engine = (ROOT / "gfxengine.cpp").read_text(encoding="utf-8")
-mapping = re.search(r"cyrillic_cp1251\[CYRILLIC_GLYPH_COUNT\]\s*=\s*\{(.*?)\};", engine, re.S)
-assert mapping, "missing CP1251 Unicode map"
+mapping = re.search(r"glb_cyrillic_codepoints\[\]\s*=\s*\{(.*?)\};", engine, re.S)
+assert mapping, "missing Unicode glyph map"
 entries = re.findall(r"0x[0-9a-fA-F]+", mapping.group(1))
 assert len(entries) == cells, f"C++ map has {len(entries)} entries, atlas has {cells} cells"
 assert "((const u16 *)glb_tilesets[glb_tileset].cyrillic) +" in engine, \

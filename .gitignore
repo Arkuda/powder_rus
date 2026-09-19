@@ -1,5 +1,5 @@
 *.o
-powder
+/powder
 support/map2c/map2c
 support/tile2c/tile2c
 support/bmp2c/bmp2c
