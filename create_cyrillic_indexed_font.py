@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Generate indexed 8x8 and 10x10 Cyrillic glyphs from the canonical atlas.
 
-The checked-in gfx/cyrillic.bmp is a 20x20-cell bitmap font.  This generator
-uses one shared source crop for every glyph, preserving the atlas baseline and
-horizontal alignment.  Each fixed cell is resized once offline with Pillow's
-bicubic filter; the game still receives only indexed bitmap tiles.
+The runtime accepts palette-indexed pixels, not anti-aliased alpha.  This
+generator uses box filtering to preserve source coverage, then applies one
+coverage threshold to a white pixel (0x05).  This avoids bicubic ringing and
+grey fringe pixels that become visual artifacts on the tile renderer.  A shared
+source crop keeps every glyph on the same baseline and horizontal grid.
 """
 
 from __future__ import annotations
@@ -16,8 +17,8 @@ from PIL import Image
 from create_cyrillic_font import GLYPHS, read_bmp
 
 SOURCE_CELL = 20
-BRIGHTNESS_THRESHOLD = 8
-TARGET_BRIGHTNESS_THRESHOLD = BRIGHTNESS_THRESHOLD * 255 // 31
+COVERAGE_BRIGHTNESS_THRESHOLD = 8
+COVERAGE_THRESHOLD = COVERAGE_BRIGHTNESS_THRESHOLD * 255 // 31
 SOURCE_CROP = (4, 7, 16, 20)
 TARGET_SIZES = (8, 10)
 
@@ -36,17 +37,17 @@ def fit_glyph(pixels: list[int], glyph_index: int, target: int) -> list[int]:
     cropped = source.crop(SOURCE_CROP)
     resized = cropped.resize(
         (target - 2, target - 1),
-        Image.Resampling.BICUBIC,
+        Image.Resampling.BOX,
     )
 
     output = [[False] * target for _ in range(target)]
     for y in range(target - 1):
         for x in range(target - 2):
             output[y][x + 1] = (
-                resized.getpixel((x, y)) >= TARGET_BRIGHTNESS_THRESHOLD
+                0x05 if resized.getpixel((x, y)) >= COVERAGE_THRESHOLD else 0x00
             )
 
-    return [0x05 if on else 0x00 for row in output for on in row]
+    return [value for row in output for value in row]
 
 
 def render(source: Path) -> str:

@@ -35,6 +35,7 @@ assert "cyrillic_10_Tiles[66 * 10 * 10]" in atlas, \
 assert (ROOT / "gfx/cyrillic_8.c").read_text(encoding="utf-8") == \
     render_indexed(ROOT / "gfx/cyrillic.bmp")
 generator = (ROOT / "create_cyrillic_indexed_font.py").read_text(encoding="utf-8")
-assert "Image.Resampling.BICUBIC" in generator
+assert "Image.Resampling.BOX" in generator
+assert "COVERAGE_BRIGHTNESS_THRESHOLD" in generator
 
 print(f"Cyrillic atlas: {width}x{height}, {cells} glyphs, layout and addressing are consistent")
