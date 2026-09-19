@@ -89,9 +89,7 @@ jobs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
-        gradle-version: '8.2.1'
         cache-read-only: false
-        validate-wrappers: true
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
@@ -99,19 +97,24 @@ jobs:
     - name: Cache Android NDK
       uses: actions/cache@v4
       with:
-        path: ${{ env.ANDROID_SDK_ROOT }}/ndk/21.4.7075529
+        path: ${{ env.ANDROID_HOME }}/ndk/21.4.7075529
         key: ${{ runner.os }}-android-ndk-21.4.7075529
 
-    - name: Install Android NDK
+    - name: Install Android SDK and NDK
       run: |
         yes | sdkmanager --licenses
-        sdkmanager --install "ndk;21.4.7075529"
+        sdkmanager --install \
+          "platform-tools" \
+          "platforms;android-34" \
+          "build-tools;34.0.0" \
+          "ndk;21.4.7075529"
 
     - name: Prepare SDL include compatibility links
       run: |
         for header in port/sdl/include/SDL2/*.h; do
           ln -sf "SDL2/$(basename "$header")" "port/sdl/include/$(basename "$header")"
         done
+
 
     - name: Build bitmap conversion tools
       run: |
@@ -125,7 +128,9 @@ jobs:
 
     - name: Show Gradle version
       working-directory: port/android/powder
-      run: ./gradlew --version
+      run: |
+        chmod +x gradlew
+        ./gradlew --version
 
     - name: Verify generated gfx assets
       run: |
@@ -135,7 +140,7 @@ jobs:
 
     - name: Build Android
       working-directory: port/android/powder
-      run: ./gradlew --no-daemon --stacktrace assembleDebug
+      run: ./gradlew --no-daemon --stacktrace :app:assembleDebug
 
     - name: Diagnose APK outputs
       run: |
@@ -149,3 +154,4 @@ jobs:
         name: powder-android
         path: port/android/powder/app/build/outputs/apk/debug/app-debug.apk
         if-no-files-found: error
+

@@ -20,14 +20,14 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := powder-jni
 
-LOCAL_C_INCLUDES := $(POWDERROOT)/port/sdl/include \
-                   $(POWDERROOT)/port/sdl/include/SDL2 \
+LOCAL_C_INCLUDES := $(POWDERROOT)/port/sdl/include/SDL2 \
+                   $(POWDERROOT)/port/sdl/include \
                    $(LOCAL_PATH) \
                    $(POWDERROOT)/port/android/powder/jni
 
 LOCAL_CPPFLAGS := -DLINUX -DANDROID \
-                 -I$(POWDERROOT)/port/sdl/include \
                  -I$(POWDERROOT)/port/sdl/include/SDL2 \
+                 -I$(POWDERROOT)/port/sdl/include \
                  -I$(LOCAL_PATH) \
                  -I$(POWDERROOT)/port/android/powder/jni
 
