@@ -2,9 +2,9 @@
 """Generate indexed 8x8 and 10x10 Cyrillic glyphs from the canonical atlas.
 
 The checked-in gfx/cyrillic.bmp is a 20x20-cell bitmap font.  This generator
-fits every glyph into the runtime text tiles and preserves a one-pixel safety
-margin.  Each glyph is resized once offline with Pillow's bicubic filter;
-the game still receives only fixed-size indexed bitmap tiles.
+uses one shared source crop for every glyph, preserving the atlas baseline and
+horizontal alignment.  Each fixed cell is resized once offline with Pillow's
+bicubic filter; the game still receives only indexed bitmap tiles.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ from create_cyrillic_font import GLYPHS, read_bmp
 SOURCE_CELL = 20
 BRIGHTNESS_THRESHOLD = 4
 TARGET_BRIGHTNESS_THRESHOLD = BRIGHTNESS_THRESHOLD * 255 // 31
+SOURCE_CROP = (4, 7, 16, 20)
 TARGET_SIZES = (8, 10)
 
 
@@ -32,27 +33,16 @@ def fit_glyph(pixels: list[int], glyph_index: int, target: int) -> list[int]:
         for x in range(SOURCE_CELL)
     )
     source = Image.frombytes("L", (SOURCE_CELL, SOURCE_CELL), values)
-    source_mask = source.point(
-        lambda value: 255 if value >= TARGET_BRIGHTNESS_THRESHOLD else 0
+    cropped = source.crop(SOURCE_CROP)
+    resized = cropped.resize(
+        (target - 2, target - 1),
+        Image.Resampling.BICUBIC,
     )
-    bbox = source_mask.getbbox()
-    if bbox is None:
-        return [0] * (target * target)
-
-    cropped = source.crop(bbox)
-    max_height = target - 2
-    max_width = target - 2
-    scale = min(max_height / cropped.height, max_width / cropped.width)
-    width = max(1, round(cropped.width * scale))
-    height = max(1, round(cropped.height * scale))
-    resized = cropped.resize((width, height), Image.Resampling.BICUBIC)
-    offset_x = (target - width) // 2
-    offset_y = 1
 
     output = [[False] * target for _ in range(target)]
-    for y in range(height):
-        for x in range(width):
-            output[offset_y + y][offset_x + x] = (
+    for y in range(target - 1):
+        for x in range(target - 2):
+            output[y][x + 1] = (
                 resized.getpixel((x, y)) >= TARGET_BRIGHTNESS_THRESHOLD
             )
 
