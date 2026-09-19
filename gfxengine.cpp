@@ -35,6 +35,8 @@
 #include "msg.h"
 #include "stylus.h"
 #include "victory.h"
+#include "localization.h"
+
 #include "cyrillic.h"
 
 // The number of 8x8 tiles to have.  The maximum for 256 colours
@@ -2094,7 +2096,7 @@ gfx_updateinventoryline(MOB *mob)
     gfx_cleartextline(18);
     if (!mob)
     {
-	gfx_printtext(0, 18, "No item slot");
+	gfx_printtext(0, 18, tr("No item slot"));
 	return;
     }
     item = mob->getItem(glb_invx, glb_invy);
@@ -2106,12 +2108,12 @@ gfx_updateinventoryline(MOB *mob)
 	ITEMSLOT_NAMES slot = (ITEMSLOT_NAMES) glb_invy;
 	if (mob->hasSlot(slot))
 	    gfx_printtext(0, 18,
-		      gram_capitalize(mob->getSlotName(slot)));
+		      gram_capitalize(tr(mob->getSlotName(slot))));
 	else
-	    gfx_printtext(0, 18, "No item slot");
+	    gfx_printtext(0, 18, tr("No item slot"));
     }
     else
-	gfx_printtext(0, 18, "Empty slot");
+	gfx_printtext(0, 18, tr("Empty slot"));
 }
 
 void

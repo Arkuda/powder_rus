@@ -30,6 +30,8 @@
 #include "victory.h"
 #include "piety.h"
 #include "encyc_support.h"
+#include "localization.h"
+
 
 //
 // ITEM defintions
@@ -1683,7 +1685,7 @@ ITEM::getItemName(ITEM_NAMES item, bool forceid)
 	rawname = glb_itemdefs[item].name;
     }
 
-    return rawname;
+    return tr(rawname);
 }
 
 const char *

@@ -552,8 +552,8 @@ public class PowderActivity extends Activity {
     		
     		alert.setView(input);
     		alert.setCancelable(false);
-    		alert.setMessage("Name?");
-    		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+		alert.setMessage("Имя?");
+		alert.setPositiveButton("ОК", new DialogInterface.OnClickListener()
     		{
     			public void onClick(DialogInterface dialog, int whichButton)
     			{

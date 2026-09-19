@@ -41,6 +41,8 @@
 #include "piety.h"
 #include "hiscore.h"
 #include "stylus.h"
+#include "localization.h"
+
 #include "rooms/allrooms.h"
 
 #ifdef USE_VIRTUAL_SCREEN
@@ -534,7 +536,7 @@ makeAWish(MOB *avatar)
 		    || itype == ITEMTYPE_ARTIFACT 
 		    || glb_itemdefs[item].itemtype == itype)
 		{
-		    itemlist[i] = glb_itemdefs[item].name;
+		    itemlist[i] = tr(glb_itemdefs[item].name);
 		    itemname[i] = item;
 		    i++;
 		}
@@ -585,7 +587,7 @@ makeAWish(MOB *avatar)
 
 	    FOREACH_MAGICTYPE(mtype)
 	    {
-		typelist[mtype] = glb_magictypedefs[mtype].name;
+		typelist[mtype] = tr(glb_magictypedefs[mtype].name);
 	    }
 	    typelist[NUM_MAGICTYPES] = 0;
 	    select = gfx_selectmenu(5, 3, typelist, aorb, lasttype);
@@ -620,31 +622,31 @@ makeAWish(MOB *avatar)
 			itemlist[i] = "illegal";
 			break;
 		    case MAGICTYPE_POTION:
-			itemlist[i] = glb_potiondefs[i].name;
+			itemlist[i] = tr(glb_potiondefs[i].name);
 			break;
 		    case MAGICTYPE_SCROLL:
-			itemlist[i] = glb_scrolldefs[i].name;
+			itemlist[i] = tr(glb_scrolldefs[i].name);
 			break;
 		    case MAGICTYPE_RING:
-			itemlist[i] = glb_ringdefs[i].name;
+			itemlist[i] = tr(glb_ringdefs[i].name);
 			break;
 		    case MAGICTYPE_HELM:
-			itemlist[i] = glb_helmdefs[i].name;
+			itemlist[i] = tr(glb_helmdefs[i].name);
 			break;
 		    case MAGICTYPE_WAND:
-			itemlist[i] = glb_wanddefs[i].name;
+			itemlist[i] = tr(glb_wanddefs[i].name);
 			break;
 		    case MAGICTYPE_AMULET:
-			itemlist[i] = glb_amuletdefs[i].name;
+			itemlist[i] = tr(glb_amuletdefs[i].name);
 			break;
 		    case MAGICTYPE_SPELLBOOK:
-			itemlist[i] = glb_spellbookdefs[i].name;
+			itemlist[i] = tr(glb_spellbookdefs[i].name);
 			break;
 		    case MAGICTYPE_BOOTS:
-			itemlist[i] = glb_bootsdefs[i].name;
+			itemlist[i] = tr(glb_bootsdefs[i].name);
 			break;
 		    case MAGICTYPE_STAFF:
-			itemlist[i] = glb_staffdefs[i].name;
+			itemlist[i] = tr(glb_staffdefs[i].name);
 			break;
 		}
 	    }
@@ -1331,7 +1333,7 @@ buildMenu(ACTION_NAMES *menu, u8 **stripvalue = 0)
 
     for (i = 0; menu[i] != ACTION_NONE; i++)
     {
-	result[i] = glb_actiondefs[menu[i]].name;
+	result[i] = tr(glb_actiondefs[menu[i]].name);
 	if (stripvalue)
 	    (*stripvalue)[i] = action_packStripButton(menu[i]);
     }
@@ -1964,9 +1966,9 @@ intro_screen()
 
 	// Request the name.
 	BUF	welcome;
-	welcome.sprintf("You are a %s %s.",
-		glbGender ? "female" : "male",
-		glb_goddefs[piety_chosengod()].classname);
+	welcome.sprintf("Вы — %s %s.",
+		glbGender ? "женщина" : "мужчина",
+		tr(glb_goddefs[piety_chosengod()].classname));
 	gfx_printtext(0, 3, welcome);
 
 	// Now get their name.
@@ -3120,7 +3122,7 @@ useInventory(MOB *avatar, bool quickselect)
 			break;
 		    }
 		    
-		    gfx_printtext(0, 0, "New Name? ");
+		    gfx_printtext(0, 0, "Новое имя? ");
 		    input_getline(buf, 19, 10, 0, 23, 8);
 		    
 		    {
@@ -4066,7 +4068,7 @@ processOptions()
 	    
 	    for (i = 0; menu_generic[i] != ACTION_NONE; i++)
 	    {
-		m[i] = glb_actiondefs[menu_generic[i]].name;
+		m[i] = tr(glb_actiondefs[menu_generic[i]].name);
 		a[i] = menu_generic[i];
 	    }
 	    a[i] = ACTION_NONE;
@@ -4464,7 +4466,7 @@ processVerbList()
 	    for (y = 3; y <= 19; y++)
 		gfx_cleartextline(y);
 	    writeStatusLine();
-	    buf.sprintf("Bind %s to?  ", glb_actiondefs[action].name);
+	    buf.sprintf("Bind %s to?  ", tr(glb_actiondefs[action].name));
 	    msg_report(buf);
 
 	    while (!found)

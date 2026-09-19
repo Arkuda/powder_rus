@@ -11,4 +11,6 @@ int main() {
  if (!(utf8_columns(s)==4)) return 1;
  if (!(utf8_prefix(s,3)==6)) return 1;
  if (!(!strcmp(tr("menu.help"),"Помощь"))) return 1;
+ if (!(!strcmp(tr("jump boots"),"ботинки прыгуна"))) return 1;
+ if (!(!strcmp(tr("Jump"),"Прыжок"))) return 1;
 }
