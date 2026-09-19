@@ -4561,6 +4561,28 @@ void hamfake_buttonreq(int mode, int type) { }
 static void
 gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
 {
+    char latin = 0;
+    switch (glb_cyrillic_codepoints[sourceidx])
+    {
+	case 0x041d: latin = 'H'; break; // Н
+	case 0x043d: latin = 'h'; break; // н
+	case 0x0415: latin = 'E'; break; // Е
+	case 0x0435: latin = 'e'; break; // е
+	case 0x0420: latin = 'P'; break; // Р
+	case 0x0440: latin = 'p'; break; // р
+    }
+
+    // These Cyrillic forms are identical to the selected Latin font glyphs.
+    // Reusing them avoids losing their counters and stems during reduction.
+    if (latin && TILEWIDTH == 8 && TILEHEIGHT == 8)
+    {
+	memcpy(dst,
+	       &glb_tilesets[glb_tileset].alphabet[glb_currentfont]
+		   [gfx_getchartile(latin) * BYTEPERTILE],
+	       BYTEPERTILE);
+	return;
+    }
+
     const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic;
     source += sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT;
     const u8 white = (u8)gfx_lookupcolor(255, 255, 255);
