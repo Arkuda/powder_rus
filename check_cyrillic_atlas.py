@@ -24,7 +24,7 @@ mapping = re.search(r"glb_cyrillic_codepoints\[\]\s*=\s*\{(.*?)\};", engine, re.
 assert mapping, "missing Unicode glyph map"
 entries = re.findall(r"0x[0-9a-fA-F]+", mapping.group(1))
 assert len(entries) == cells, f"C++ map has {len(entries)} entries, atlas has {cells} cells"
-assert "((const u16 *)glb_tilesets[glb_tileset].cyrillic) +" in engine, \
-    "Cyrillic address must use bmp2c's unsigned-short pixel format"
+assert "const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic" in engine, \
+    "Cyrillic conversion must read bmp2c's unsigned-short pixel format"
 
 print(f"Cyrillic atlas: {width}x{height}, {cells} glyphs, layout and addressing are consistent")

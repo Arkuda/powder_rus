@@ -196,6 +196,7 @@ static const GFX_CODEPOINT glb_cyrillic_codepoints[] = {
     0x423,0x424,0x425,0x426,0x427,0x428,0x429,0x42a,0x42b,0x42c,
     0x42d,0x42e,0x42f
 };
+static void gfx_copy_cyrillic_tile(int sourceidx, u8 *dst);
 
 u8
 rgbtogrey(u8 cr, u8 cg, u8 cb)
@@ -325,12 +326,16 @@ gfx_lockColourCharTile(GFX_CODEPOINT c, COLOUR_NAMES colour, u8 *result)
 
     u8		*dst;
     const u8	*src;
+    u8		cyrillic_tile[BYTEPERTILE];
     u16 	*palette = (u16 *) glb_tilesets[glb_tileset].palette;
     int		 i;
 
     dst = glb_colourchardata[charnum];
     if (is_cyrillic(c))
-	src = (const u8 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT];
+    {
+	gfx_copy_cyrillic_tile(sourceidx, cyrillic_tile);
+	src = cyrillic_tile;
+    }
     else
 	src = (const u8 *)&glb_tilesets[glb_tileset].alphabet[glb_currentfont][sourceidx*BYTEPERTILE];
 
@@ -381,9 +386,10 @@ gfx_lockCharTile(GFX_CODEPOINT c, u8 *result)
         idx = gfx_findFreeTile(1);
         if (idx != INVALID_TILEIDX) {
             // Используем кириллический шрифт
+            u8 cyrillic_tile[BYTEPERTILE];
+            gfx_copy_cyrillic_tile(sourceidx, cyrillic_tile);
             ham_ReloadTileGfx(glb_bg1tiles,
-                (u16*)(((const u16 *)glb_tilesets[glb_tileset].cyrillic) +
-                       idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT),
+                (u16 *)cyrillic_tile,
                 idx,
                 1);
             glb_idxcount[idx]++;
@@ -1314,6 +1320,7 @@ gfx_printcharraw(int x, int y, GFX_CODEPOINT c)
     int		 idx, offx, offy;
     u16 	*screen = hamfake_lockScreen();
     u8	 	*chardata;
+    u8		cyrillic_tile[BYTEPERTILE];
     u16		*palette;
     u16		*backplate;
 
@@ -1326,7 +1333,10 @@ gfx_printcharraw(int x, int y, GFX_CODEPOINT c)
     glb_charmap[(y/TILEHEIGHT)*32 + (x/TILEWIDTH)] = stored;
 
     if (cyridx != INVALID_TILEIDX)
-	chardata = (u8 *) (&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]);
+    {
+	gfx_copy_cyrillic_tile(idx, cyrillic_tile);
+	chardata = cyrillic_tile;
+    }
     else
 	chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
     palette = (u16 *) glb_tilesets[glb_tileset].palette;
@@ -1375,6 +1385,7 @@ gfx_printcolourcharraw(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour)
     int		 idx, offx, offy;
     u16 	*screen = hamfake_lockScreen();
     u8	 	*chardata;
+    u8		cyrillic_tile[BYTEPERTILE];
     u16		*palette;
     u16		*backplate;
     u16		 charcolour, desiredcolour;
@@ -1389,7 +1400,10 @@ gfx_printcolourcharraw(int x, int y, GFX_CODEPOINT c, COLOUR_NAMES colour)
 	is_cyrillic(c) ? (u8)(166 + gfx_getcyrillictile(c)) : (u8)c;
 
     if (cyridx != INVALID_TILEIDX)
-	chardata = (u8 *) (&glb_tilesets[glb_tileset].cyrillic[idx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT]);
+    {
+	gfx_copy_cyrillic_tile(idx, cyrillic_tile);
+	chardata = cyrillic_tile;
+    }
     else
 	chardata = (u8 *) (&glb_tilesets[glb_tileset].alphabet[glb_currentfont][idx * BYTEPERTILE]);
     palette = (u16 *) glb_tilesets[glb_tileset].palette;
@@ -4048,8 +4062,10 @@ gfx_switchfonts(int newfont)
 	    if (c >= 166 && c < 166 + (int)(sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0])))
 	    {
 		sourceidx = c - 166;
+		u8 cyrillic_tile[BYTEPERTILE];
+		gfx_copy_cyrillic_tile(sourceidx, cyrillic_tile);
 		ham_ReloadTileGfx(glb_bg1tiles,
-		    (u16 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT], idx, 1);
+		    (u16 *)cyrillic_tile, idx, 1);
 	    }
 	    else
 	    {
@@ -4141,8 +4157,10 @@ gfx_switchtilesets(int newtileset)
 	    if (c >= 166 && c < 166 + (int)(sizeof(glb_cyrillic_codepoints) / sizeof(glb_cyrillic_codepoints[0])))
 	    {
 		sourceidx = c - 166;
+		u8 cyrillic_tile[BYTEPERTILE];
+		gfx_copy_cyrillic_tile(sourceidx, cyrillic_tile);
 		ham_ReloadTileGfx(glb_bg1tiles,
-		    (u16 *)&glb_tilesets[glb_tileset].cyrillic[sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT], idx, 1);
+		    (u16 *)cyrillic_tile, idx, 1);
 	    }
 	    else
 	    {
@@ -4539,6 +4557,50 @@ bool hamfake_externaldir(int &dx, int &dy) { return false; }
 
 void hamfake_buttonreq(int mode, int type) { }
 #endif
+
+static void
+gfx_copy_cyrillic_tile(int sourceidx, u8 *dst)
+{
+    const u16 *source = (const u16 *)glb_tilesets[glb_tileset].cyrillic;
+    source += sourceidx * CYRILLIC_WIDTH * CYRILLIC_HEIGHT;
+
+    for (int y = 0; y < TILEHEIGHT; y++)
+    {
+	int sy0 = y * CYRILLIC_HEIGHT / TILEHEIGHT;
+	int sy1 = (y + 1) * CYRILLIC_HEIGHT / TILEHEIGHT;
+
+	for (int x = 0; x < TILEWIDTH; x++)
+	{
+	    int sx0 = x * CYRILLIC_WIDTH / TILEWIDTH;
+	    int sx1 = (x + 1) * CYRILLIC_WIDTH / TILEWIDTH;
+	    u16 strongest = 0;
+	    int strongest_value = 0;
+
+	    for (int sy = sy0; sy < sy1; sy++)
+	    {
+		for (int sx = sx0; sx < sx1; sx++)
+		{
+		    u16 pixel = source[sy * CYRILLIC_WIDTH + sx];
+		    int value = (pixel & 31) + ((pixel >> 5) & 31) +
+				((pixel >> 10) & 31);
+		    if (value > strongest_value)
+		    {
+			strongest = pixel;
+			strongest_value = value;
+		    }
+		}
+	    }
+
+	    if (!strongest)
+		dst[y * TILEWIDTH + x] = 0;
+	    else
+		dst[y * TILEWIDTH + x] = (u8)gfx_lookupcolor(
+		    (strongest & 31) << 3,
+		    ((strongest >> 5) & 31) << 3,
+		    ((strongest >> 10) & 31) << 3);
+	}
+    }
+}
 
 u16 gfx_getcyrillictile(GFX_CODEPOINT c) {
     for (u16 idx = 0; idx < CYRILLIC_GLYPH_COUNT; ++idx)
