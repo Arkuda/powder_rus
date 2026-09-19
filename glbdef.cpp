@@ -430,7 +430,7 @@ glb_actiondefs[NUM_ACTIONS] =
     SPRITE_ZAP,
   },
   {
-    "Options",
+    "Настройки",
     "O",
     SPRITE_OPTIONS,
   },
@@ -529,31 +529,31 @@ glb_mainmenudefs[NUM_MAINMENUS] =
     "No Choice",
   },
   {
-    "New Game",
+    "Новая игра",
   },
   {
-    "Tutorial",
+    "Обучение",
   },
   {
-    "View Scores",
+    "Рекорды",
   },
   {
-    "Load",
+    "Продолжить",
   },
   {
-    "Options",
+    "Настройки",
   },
   {
-    "Quit",
+    "Выход",
   },
   {
-    "Save Scum",
+    "Загрузить сохранение",
   },
   {
-    "Stress Test",
+    "Автотест",
   },
   {
-    "Unlock",
+    "Разблокировать",
   },
 };
 

@@ -33,6 +33,7 @@ OFILES += action.o \
 	  intrinsic.o \
 	  item.o \
 	  license.o \
+	  localization.o \
 	  main.o \
 	  map.o \
 	  mobref.o \
