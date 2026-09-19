@@ -324,8 +324,7 @@ msg_announce(const char *msg)
     cur = msg;
     while (*cur)
     {
-	gfx_printchar(x, y, *cur);
-	cur++;
+	gfx_printchar(x, y, gfx_utf8next(&cur));
 	x++;
 	
 	// Check for line wraps.
