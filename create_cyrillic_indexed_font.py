@@ -3,8 +3,8 @@
 
 The checked-in gfx/cyrillic.bmp is a 20x20-cell bitmap font.  This generator
 fits every glyph into the runtime text tiles and preserves a one-pixel safety
-margin.  A low coverage threshold keeps anti-aliased source pixels, making the
-result slightly heavier without allowing glyphs to touch adjacent cells.
+margin.  Each glyph is resized once offline with Pillow's bicubic filter;
+the game still receives only fixed-size indexed bitmap tiles.
 """
 
 from __future__ import annotations
@@ -12,10 +12,12 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from PIL import Image
 from create_cyrillic_font import GLYPHS, read_bmp
 
 SOURCE_CELL = 20
 BRIGHTNESS_THRESHOLD = 4
+TARGET_BRIGHTNESS_THRESHOLD = BRIGHTNESS_THRESHOLD * 255 // 31
 TARGET_SIZES = (8, 10)
 
 
@@ -24,36 +26,35 @@ def brightness(pixel: int) -> int:
 
 
 def fit_glyph(pixels: list[int], glyph_index: int, target: int) -> list[int]:
-    source = [
-        [brightness(pixels[(glyph_index * SOURCE_CELL + y) * SOURCE_CELL + x]) >= BRIGHTNESS_THRESHOLD
-         for x in range(SOURCE_CELL)]
+    values = bytes(
+        brightness(pixels[(glyph_index * SOURCE_CELL + y) * SOURCE_CELL + x]) * 255 // 31
         for y in range(SOURCE_CELL)
-    ]
-    points = [(x, y) for y, row in enumerate(source) for x, on in enumerate(row) if on]
-    if not points:
+        for x in range(SOURCE_CELL)
+    )
+    source = Image.frombytes("L", (SOURCE_CELL, SOURCE_CELL), values)
+    source_mask = source.point(
+        lambda value: 255 if value >= TARGET_BRIGHTNESS_THRESHOLD else 0
+    )
+    bbox = source_mask.getbbox()
+    if bbox is None:
         return [0] * (target * target)
 
-    min_x = min(x for x, _ in points)
-    max_x = max(x for x, _ in points)
-    min_y = min(y for _, y in points)
-    max_y = max(y for _, y in points)
-    cropped = [row[min_x:max_x + 1] for row in source[min_y:max_y + 1]]
-
+    cropped = source.crop(bbox)
     max_height = target - 2
     max_width = target - 2
-    scale = min(max_height / len(cropped), max_width / len(cropped[0]))
-    width = max(1, round(len(cropped[0]) * scale))
-    height = max(1, round(len(cropped) * scale))
+    scale = min(max_height / cropped.height, max_width / cropped.width)
+    width = max(1, round(cropped.width * scale))
+    height = max(1, round(cropped.height * scale))
+    resized = cropped.resize((width, height), Image.Resampling.BICUBIC)
     offset_x = (target - width) // 2
     offset_y = 1
 
     output = [[False] * target for _ in range(target)]
     for y in range(height):
-        source_y = min(len(cropped) - 1, int((y + 0.5) * len(cropped) / height))
         for x in range(width):
-            source_x = min(len(cropped[0]) - 1, int((x + 0.5) * len(cropped[0]) / width))
-            output[offset_y + y][offset_x + x] = cropped[source_y][source_x]
-
+            output[offset_y + y][offset_x + x] = (
+                resized.getpixel((x, y)) >= TARGET_BRIGHTNESS_THRESHOLD
+            )
 
     return [0x05 if on else 0x00 for row in output for on in row]
 
