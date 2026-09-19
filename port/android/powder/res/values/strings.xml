@@ -3,11 +3,11 @@
 
     <string name="hello">Hello World, PowderActivity!</string>
     <string name="app_name">Powder</string>
-    <string name="rotateportrait">Rotate View</string>
-    <string name="showcontrols">Show Controls</string>
-    <string name="showfps">Show FPS</string>
-    <string name="revertdefaults">Revert Defaults</string>
-    <string name="openfiles">Play Logs</string>
-    <string name="stretchscreen">Stretch Screen</string>
+    <string name="rotateportrait">Повернуть экран</string>
+    <string name="showcontrols">Показать управление</string>
+    <string name="showfps">Показать FPS</string>
+    <string name="revertdefaults">Восстановить настройки</string>
+    <string name="openfiles">История игры</string>
+    <string name="stretchscreen">Растянуть экран</string>
 
 </resources>

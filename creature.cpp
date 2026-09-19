@@ -40,6 +40,7 @@
 #include "piety.h"
 #include "encyc_support.h"
 #include "hiscore.h"
+#include "localization.h"
 
 MOBREF	glbAvatar;
 
@@ -4966,7 +4967,7 @@ MOB::gainLevel()
 		if (spell != SPELL_NONE)
 		{
 		    buf.sprintf("%%U <learn> %s!", 
-			    glb_spelldefs[spell].name);
+			    tr(glb_spelldefs[spell].name));
 		    formatAndReport(buf.buffer());
 		}
 	    }
@@ -6237,7 +6238,7 @@ MOB::viewDescription() const
 		else
 		    gfx_pager_addtext(", ");
 		
-		gfx_pager_addtext(glb_spelldefs[spell].name);	    
+	    gfx_pager_addtext(tr(glb_spelldefs[spell].name));
 	    }
 	}
 	if (hasany)
@@ -6476,7 +6477,7 @@ MOB::pageCharacterDump(bool ondeath, bool didwin, int truetime)
 	    
 	    dash[0] = *intrinsicFromWhatLetter(intrinsic);
 	    gfx_pager_addtext(dash);
-	    gfx_pager_addtext(glb_spelldefs[spell].name);	    
+	    gfx_pager_addtext(tr(glb_spelldefs[spell].name));
 	    gfx_pager_newline();
 	}
     }
@@ -8599,7 +8600,7 @@ MOB::canLearnSpell(SPELL_NAMES spell, bool explain) const
 	if (explain)
 	{
 	    buf.sprintf("You already know %s.",
-			    glb_spelldefs[spell].name);
+			    tr(glb_spelldefs[spell].name));
 	    reportMessage(buf);
 	}
 	return false;
@@ -8629,7 +8630,7 @@ MOB::canLearnSpell(SPELL_NAMES spell, bool explain) const
 	    if (explain)
 	    {
 		buf.sprintf("You must first learn %s.",
-			    glb_spelldefs[(u8) *prereq].name);
+			    tr(glb_spelldefs[(u8) *prereq].name));
 		reportMessage(buf);
 	    }
 	}

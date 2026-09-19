@@ -727,7 +727,7 @@ makeAWish(MOB *avatar)
 
 	    FOREACH_SPELL(spellname)
 	    {
-		spelllist[spellname] = glb_spelldefs[spellname].name;
+		spelllist[spellname] = tr(glb_spelldefs[spellname].name);
 	    }
 	    spelllist[NUM_SPELLS] = 0;
 
@@ -3548,7 +3548,7 @@ processHelp()
 		// Skip first as it is no-spell.
 		for (spell = 1; spell < NUM_SPELLS; spell++)
 		{
-		    menu[spell-1] = glb_spelldefs[spell].name;
+		    menu[spell-1] = tr(glb_spelldefs[spell].name);
 		}
 		menu[spell-1] = 0;
 
@@ -4103,7 +4103,7 @@ processOptions()
 		if (avatar->hasSpell(spell))
 		{
 		    s[j] = spell;
-		    m[j] = glb_spelldefs[spell].name;
+		    m[j] = tr(glb_spelldefs[spell].name);
 		    j++;
 		}
 	    }
@@ -4981,7 +4981,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 		{
 		    spell_list[n] = (SPELL_NAMES) i;
 		    skill_list[n] = SKILL_NONE;
-		    options[n] = glb_spelldefs[i].name;
+		    options[n] = tr(glb_spelldefs[i].name);
 		    n++;
 		}
 	    }
@@ -5013,7 +5013,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 		if (skill != SKILL_NONE)
 		    forgetprompt.sprintf("Forget %s?", glb_skilldefs[skill].name);
 		else
-		    forgetprompt.sprintf("Forget %s?", glb_spelldefs[spell].name);
+		    forgetprompt.sprintf("Forget %s?", tr(glb_spelldefs[spell].name));
 
 		if (!gfx_yesnomenu(forgetprompt))
 		    choice = -1;
@@ -5374,7 +5374,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 		if (avatar->hasSpell(spell))
 		{
 		    s[j] = spell;
-		    m[j] = glb_spelldefs[spell].name;
+		    m[j] = tr(glb_spelldefs[spell].name);
 		    if (!avatar->canCastSpell(spell))
 		    {
 			char *mi = new char[strlen(m[j])+10];
@@ -5442,7 +5442,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 	    for (i = 0; i < j; i++)
 	    {
 		if (s[i] != SPELL_NONE &&
-		    m[i] != glb_spelldefs[s[i]].name)
+		    m[i] != tr(glb_spelldefs[s[i]].name))
 		{
 		    delete [] m[i];
 		}
@@ -5469,7 +5469,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 		int			tx, ty;
 
 		avatar->formatAndReport("Cast %B1 in direction?",
-			    glb_spelldefs[spell].name);
+			    tr(glb_spelldefs[spell].name));
 	    
 		tx = avatar->getX();
 		ty = avatar->getY();
@@ -5487,7 +5487,7 @@ processAction(ACTION_NAMES action, SPELL_NAMES forcespell, MOB *avatar)
 		int			tx, ty;
 
 		avatar->formatAndReport("Cast %B1 at?",
-				    glb_spelldefs[spell].name);
+				    tr(glb_spelldefs[spell].name));
 
 		tx = avatar->getX();
 		ty = avatar->getY();

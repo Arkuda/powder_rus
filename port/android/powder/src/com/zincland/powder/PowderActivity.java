@@ -187,8 +187,8 @@ public class PowderActivity extends Activity {
     	        {
         	        AlertDialog.Builder alert = new AlertDialog.Builder(this);
         	        alert.setCancelable(true);
-        	        alert.setTitle("View who's history?");
-        	        alert.setPositiveButton("Cancel", null);
+                alert.setTitle("Просмотреть историю персонажа?");
+                alert.setPositiveButton("Отмена", null);
         	        final Context parentcontext = this;
 
         	        File[] filelist = pdir.listFiles();
@@ -232,8 +232,8 @@ public class PowderActivity extends Activity {
                	        		dialog.dismiss();
                	        	 	final AlertDialog.Builder alert = new AlertDialog.Builder(parentcontext);
         	    	    		alert.setCancelable(false);
-        	    	    		alert.setMessage("No text viewer installed on this device.");
-        	    	    		alert.setPositiveButton("Ok", null);
+                                alert.setMessage("На устройстве не установлено приложение для просмотра текста.");
+                                alert.setPositiveButton("ОК", null);
         	    	    		alert.show();
             	        	}		
         	        	}
@@ -247,8 +247,8 @@ public class PowderActivity extends Activity {
         	        {
 	    	    		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
 	    	    		alert2.setCancelable(false);
-	    	    		alert2.setMessage("No character logs have been saved yet.");
-	    	    		alert2.setPositiveButton("Ok", null);
+                        alert2.setMessage("История персонажей ещё не сохранена.");
+                        alert2.setPositiveButton("ОК", null);
 	    	    		alert2.show();
     	        	}
     	        }
@@ -256,8 +256,8 @@ public class PowderActivity extends Activity {
     	        {
     	    		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
     	    		alert.setCancelable(false);
-    	    		alert.setMessage("No external storage configured for this device!");
-    	    		alert.setPositiveButton("Ok", null);
+                    alert.setMessage("Внешнее хранилище не настроено для этого устройства!");
+                    alert.setPositiveButton("ОК", null);
     	    		alert.show();
 	        	}
     			return true;

@@ -45,6 +45,7 @@
 #include "victory.h"
 #include "piety.h"
 #include "encyc_support.h"
+#include "localization.h"
 #include "stylus.h"
 
 void writeGlobalActionBar(bool useemptyslot);
@@ -3614,11 +3615,11 @@ MOB::actionRead(int ix, int iy)
 		    // Add a spell.
 		    spell = (SPELL_NAMES) *stuff;
 
-		    options[i] = new char [strlen(glb_spelldefs[spell].name) + 5];
+		    options[i] = new char [strlen(tr(glb_spelldefs[spell].name)) + 5];
 
 		    strcpy(options[i], intrinsicFromWhatLetter((INTRINSIC_NAMES) glb_spelldefs[spell].intrinsic));
 
-		    strcat(options[i], glb_spelldefs[spell].name);
+		    strcat(options[i], tr(glb_spelldefs[spell].name));
 		    isspell[i] = true;
 		    enumvalue[i] = spell;
 		    
@@ -3714,7 +3715,7 @@ MOB::actionRead(int ix, int iy)
 		if (spell != SPELL_NONE)
 		{
 		    encyc_viewSpellDescription(spell);
-		    name = glb_spelldefs[spell].name;
+		    name = tr(glb_spelldefs[spell].name);
 		}
 		else if (skill != SKILL_NONE)
 		{
@@ -4288,7 +4289,7 @@ MOB::actionCast(SPELL_NAMES spell, int dx, int dy, int dz)
     // Text for casting the spell...
     buf = formatToString("%U <cast> %B1.",
 		this, 0, 0, 0,
-		glb_spelldefs[spell].name);
+		tr(glb_spelldefs[spell].name));
     reportMessage(buf);
 
     // Pay the spell cost...
@@ -8471,12 +8472,12 @@ MOB::actionForget(SPELL_NAMES spell, SKILL_NAMES skill)
 	if (!hasSpell(spell))
 	{
 	    formatAndReport("%U <forget> %B1 before knowing it.  Impressive.",
-		    glb_spelldefs[spell].name);
+		    tr(glb_spelldefs[spell].name));
 	}
 	else if ((item = getSourceOfIntrinsic((INTRINSIC_NAMES) glb_spelldefs[spell].intrinsic)))
 	{
 	    formatAndReport("%U cannot forget %B1 while using %IU.",
-			item, glb_spelldefs[spell].name);
+			item, tr(glb_spelldefs[spell].name));
 	}
 	else
 	{
@@ -8498,8 +8499,8 @@ MOB::actionForget(SPELL_NAMES spell, SKILL_NAMES skill)
 		    {
 			canforget = false;
 			buf.sprintf("Knowing %s prevents %s from being forgotten.",
-				    glb_spelldefs[i].name,
-				    glb_spelldefs[spell].name);
+				    tr(glb_spelldefs[i].name),
+				    tr(glb_spelldefs[spell].name));
 			reportMessage(buf);
 		    }
 		    prereq++;
@@ -8509,7 +8510,7 @@ MOB::actionForget(SPELL_NAMES spell, SKILL_NAMES skill)
 	    if (canforget)
 	    {
 		formatAndReport("%U <try> to forget %B1.",
-			    glb_spelldefs[spell].name);
+			    tr(glb_spelldefs[spell].name));
 		clearIntrinsic((INTRINSIC_NAMES) glb_spelldefs[spell].intrinsic);
 		// Remove from base type, if present.
 		MOB		*base;

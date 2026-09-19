@@ -13,4 +13,6 @@ int main() {
  if (!(!strcmp(tr("menu.help"),"Помощь"))) return 1;
  if (!(!strcmp(tr("jump boots"),"ботинки прыгуна"))) return 1;
  if (!(!strcmp(tr("Jump"),"Прыжок"))) return 1;
+ if (!(!strcmp(tr("Force Bolt"),"Силовая молния"))) return 1;
+ if (!(!strcmp(tr("History"),"История"))) return 1;
 }
